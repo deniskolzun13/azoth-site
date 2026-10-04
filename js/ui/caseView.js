@@ -93,7 +93,19 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
 
   function open(i, { pushHash = true } = {}) {
     const p = PROJECTS[i];
-    if (!p || isOpen) return;
+    if (!p) return;
+
+    // кейс уже открыт (←/→, Back/Forward) — просто переключаем содержимое
+    if (isOpen) {
+      current = i;
+      fill(i);
+      renderThumbs();
+      setShot(0, true);
+      if (pushHash) push?.(`case-${i + 1}`);
+      else replace?.(`case-${i + 1}`);
+      return;
+    }
+
     isOpen = true;
     current = i;
     lastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
