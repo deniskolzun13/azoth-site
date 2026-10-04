@@ -165,6 +165,11 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
   document.getElementById('casePrev')?.addEventListener('click', () => nav(-1));
   document.getElementById('caseNext')?.addEventListener('click', () => nav(1));
 
+  // «ЗАКРЫТЬ» и клик по затемнённому фону
+  modal.addEventListener('click', (e) => {
+    if (e.target.closest('[data-close]')) close();
+  });
+
   document.getElementById('caseShare')?.addEventListener('click', async () => {
     const url = `${location.origin}${location.pathname}#case-${current + 1}`;
     try {
