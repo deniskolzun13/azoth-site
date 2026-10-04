@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# ЗАГЛУШКА: замените домен на свой при деплое
-Sitemap: https://azoth.studio/sitemap.xml
+# При переезде на свой домен замените URL здесь и в sitemap.xml/index.html/js/config.js
+Sitemap: https://deniskolzun13.github.io/azoth-site/sitemap.xml

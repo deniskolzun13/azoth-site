@@ -6,8 +6,8 @@
 // ============================================================
 
 export const BRAND = 'AZOTH';              // ← название-заглушка, поменяйте на своё
-export const BRAND_DOMAIN = 'azoth.studio';
-export const SITE_URL = 'https://azoth.studio'; // ← домен для canonical/og/sitemap (и в robots.txt/sitemap.xml тоже)
+export const BRAND_DOMAIN = 'deniskolzun13.github.io';
+export const SITE_URL = 'https://deniskolzun13.github.io/azoth-site'; // ← GitHub Pages; при покупке домена замените здесь и в index.html/robots.txt/sitemap.xml
 
 export const CONTACTS = {
   telegramUser: '@azoth_dev',              // ← ник в Telegram

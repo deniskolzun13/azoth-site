@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ЗАГЛУШКА: замените домен на свой при деплое -->
+<!-- При переезде на свой домен замените URL здесь, в robots.txt и index.html/js/config.js -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://azoth.studio/</loc>
+    <loc>https://deniskolzun13.github.io/azoth-site/</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
