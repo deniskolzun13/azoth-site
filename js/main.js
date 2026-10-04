@@ -70,6 +70,7 @@ function replace(h) {
 const obj3dItem = cards.ok
   ? cards.add(document.getElementById('obj3dCanvas'), { kind: 'mesh', vp: [640, 640], page: 'about' })
   : null;
+if (obj3dItem) obj3dItem.visible = true; // tick() рисует только visible-элементы; у карточек это делает IntersectionObserver, здесь ставим сразу
 if (obj3dItem) {
   const wrap3d = document.querySelector('.obj3d-wrap');
   let px3 = 0, py3 = 0;
