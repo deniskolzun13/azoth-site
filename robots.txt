@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# ЗАГЛУШКА: замените домен на свой при деплое
+Sitemap: https://azoth.studio/sitemap.xml

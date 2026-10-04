@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- ЗАГЛУШКИ: title/description/OG/JSON-LD меняйте вместе с js/config.js -->
+  <title>AZOTH® — creative-разработчик · сайты, которые запоминаются</title>
+  <meta name="description" content="Делаю сайты, которые запоминаются: лендинги, интернет-магазины, корпоративные сайты и WebGL/3D-эффекты. От идеи до запуска.">
+  <meta name="theme-color" content="#05010f">
+  <link rel="canonical" href="https://azoth.studio/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AZOTH">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="AZOTH® — сайты, которые запоминаются">
+  <meta property="og:description" content="Лендинги, магазины и корпоративные сайты с WebGL/3D-эффектами уровня Awwwards. От идеи до запуска.">
+  <meta property="og:url" content="https://azoth.studio/">
+  <meta property="og:image" content="https://azoth.studio/og-cover.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AZOTH® — сайты, которые запоминаются">
+  <meta name="twitter:description" content="Лендинги, магазины и корпоративные сайты с WebGL/3D-эффектами уровня Awwwards. От идеи до запуска.">
+  <meta name="twitter:image" content="https://azoth.studio/og-cover.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20fill='%2305010f'/%3E%3Cpath%20d='M16%204%20L29%2028%20H21.8%20L16%2016.4%20L10.2%2028%20H3%20Z'%20fill='%237c5cff'/%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <!-- Шрифты и Three.js/GSAP/Lenis лежат локально в vendor/ — сайт работает без CDN -->
+  <link rel="stylesheet" href="vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.js",
+      "gsap": "./vendor/gsap/index.js",
+      "lenis": "./vendor/lenis.mjs"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "AZOTH",
+    "url": "https://azoth.studio/",
+    "description": "Веб-разработчик-фрилансер: лендинги, интернет-магазины, корпоративные сайты, WebGL/3D-эффекты, редизайн.",
+    "areaServed": "RU",
+    "knowsAbout": ["Лендинги", "Интернет-магазины", "Корпоративные сайты", "WebGL", "GLSL", "Редизайн"],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "sales",
+      "email": "hello@azoth.dev",
+      "availableLanguage": ["ru", "en"]
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- WebGL фон -->
+  <div id="gl" aria-hidden="true"></div>
+
+  <!-- Слой глитч-полос на переходах -->
+  <div id="glitch-overlay" aria-hidden="true"></div>
+
+  <!-- Прогресс скролла активной страницы -->
+  <div id="scrollProgress" aria-hidden="true"><i></i></div>
+
+  <!-- Кнопка «наверх» -->
+  <button id="topBtn" class="mono" data-cursor="link" data-i18n="top_btn" aria-label="Наверх">↑ НАВЕРХ</button>
+
+  <!-- Зерно -->
+  <div id="grain" aria-hidden="true"></div>
+
+  <!-- ПРЕЛОАДЕР -->
+  <div id="preloader" aria-hidden="true">
+    <div class="pre-corner tl mono">AZOTH.STUDIO<br>EST. 2026</div>
+    <div class="pre-corner tr mono">WEBGL // GLSL<br>LOADING ASSETS</div>
+    <div class="pre-center">
+      <div class="pre-logo glitchable" id="preLogo" data-text="AZOTH">AZOTH</div>
+      <div class="pre-sub mono" data-i18n="pre_sub">// СОБИРАЮ СЦЕНУ ИЗ ШУМА</div>
+      <div class="pre-bar"><i id="preBar"></i></div>
+      <div class="pre-bottom mono"><span id="preLabel">ИНИЦИАЛИЗАЦИЯ</span><span id="prePercent">000%</span></div>
+    </div>
+    <div class="pre-corner bl mono">DPR — <span id="preDpr">2.0</span><br>60 FPS TARGET</div>
+    <div class="pre-corner br mono">SKIPPABLE:<br>CLICK / ESC</div>
+  </div>
+
+  <!-- HUD -->
+  <header id="hud-top" class="hud">
+    <a class="brand" href="#home" data-go="0" data-cursor="link">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name glitchable" id="brandName">AZOTH<sup>®</sup></span>
+    </a>
+    <nav class="hud-nav mono" aria-label="Разделы">
+      <button data-go="0" data-cursor="link" data-i18n="nav_home">ГЛАВНАЯ</button>
+      <button data-go="1" data-cursor="link" data-i18n="nav_works">РАБОТЫ</button>
+      <button data-go="2" data-cursor="link" data-i18n="nav_about">УСЛУГИ</button>
+      <button data-go="3" data-cursor="link" data-i18n="nav_calc">КАЛЬКУЛЯТОР</button>
+      <button data-go="4" data-cursor="link" data-i18n="nav_contact">КОНТАКТ</button>
+    </nav>
+    <button id="burger" data-cursor="link" aria-label="Меню">
+      <i></i><i></i>
+      <span class="mono" data-i18n="menu_btn">МЕНЮ</span>
+    </button>
+  </header>
+
+  <footer id="hud-bottom" class="hud">
+    <div class="hud-page mono">
+      <span id="hudIndex">01</span><span class="hud-sep"></span><span id="hudTitle">ГЛАВНАЯ</span>
+      <span class="hud-dashes" id="hudDashes"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+    </div>
+    <div class="hud-hint mono" id="hudHint">SCROLL / ↓</div>
+    <div class="hud-data mono">
+      <span id="hudClock">00:00:00</span><span class="hud-sep"></span><span id="hudFps">60 FPS</span><span class="hud-sep"></span>
+      <button class="lang-btn" data-cursor="link" aria-label="Switch language">EN</button>
+      <button id="sndBtn" data-cursor="link" aria-label="Включить звук">ЗВУК ВЫКЛ</button>
+    </div>
+  </footer>
+
+  <div class="hud-side mono" aria-hidden="true" data-i18n="hud_side">CREATIVE DEVELOPER — WEBGL — 2026</div>
+  <div class="hud-crosses" aria-hidden="true">
+    <i style="top:18%;left:6%"></i><i style="top:72%;left:12%"></i><i style="top:24%;right:8%"></i><i style="top:80%;right:14%"></i><i style="top:50%;left:3%"></i><i style="top:12%;left:44%"></i>
+  </div>
+
+  <div class="hud-arrows">
+    <button id="arrPrev" data-cursor="link" aria-label="Назад" data-i18n-aria="arr_prev">↑</button>
+    <span class="mono" id="arrIdx">1/5</span>
+    <button id="arrNext" data-cursor="link" aria-label="Вперёд" data-i18n-aria="arr_next">↓</button>
+  </div>
+
+  <!-- ЭКРАНЫ -->
+  <main id="stage">
+
+    <!-- 00 HOME -->
+    <section class="page" id="page-home" data-title="ГЛАВНАЯ">
+      <div class="page-scroll">
+        <div class="page-content home">
+          <p class="overline mono" data-reveal data-i18n="home_overline">// CREATIVE-РАЗРАБОТКА · WEBGL · ФРИЛАНС</p>
+          <h1 class="hero-title glitchable" data-para="1">
+            <span class="line"><span class="line-in" style="--i:0" data-i18n="hero_l1">ДЕЛАЮ САЙТЫ,</span></span>
+            <span class="line"><span class="line-in outline" style="--i:1" data-i18n="hero_l2">КОТОРЫЕ</span></span>
+            <span class="line"><span class="line-in accent" style="--i:2" data-i18n="hero_l3">ЗАПОМИНАЮТСЯ</span></span>
+          </h1>
+          <div class="home-row">
+            <p class="home-sub" data-reveal style="--i:3" data-i18n="home_sub">Лендинги, магазины и корпоративные сайты
+            с 3D-эффектами уровня Awwwards. От идеи до запуска —
+            один разработчик, полный контроль качества.</p>
+            <div class="home-cta" data-reveal style="--i:4">
+              <button class="btn btn-solid" data-go="4" data-cursor="link"><span data-i18n="cta_discuss">ОБСУДИТЬ ПРОЕКТ</span><i>→</i></button>
+              <button class="btn btn-ghost" data-go="3" data-cursor="link"><span data-i18n="cta_calc">ПОСЧИТАТЬ ЦЕНУ</span></button>
+            </div>
+          </div>
+          <p class="avail mono" data-avail hidden><i aria-hidden="true"></i><span></span></p>
+          <div class="home-stats mono" data-reveal style="--i:5">
+            <span data-i18n="home_stat1">07 ЛЕТ В РАЗРАБОТКЕ</span><b>·</b>
+            <span data-i18n="home_stat2">40+ ПРОЕКТОВ</span><b>·</b>
+            <span>WEBGL / GLSL / GSAP</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 WORKS -->
+    <section class="page" id="page-works" data-title="РАБОТЫ">
+      <div class="page-scroll">
+        <div class="page-content works">
+          <header class="works-head">
+            <p class="overline mono" data-reveal data-i18n="works_overline">02 // ИЗБРАННЫЕ ПРОЕКТЫ</p>
+            <h2 class="works-title glitchable" data-para="0.5">
+              <span class="line"><span class="line-in" style="--i:0" data-i18n-html="works_title_html">РА<span class="outline">БО</span>ТЫ</span></span>
+            </h2>
+            <p class="works-note mono" id="worksNote" data-reveal style="--i:1">6 ПРОЕКТОВ · 2024—2026 · НАВЕДИТЕ, ЧТОБЫ ОЖИВИТЬ</p>
+            <div class="works-filters mono" id="worksFilters" data-reveal style="--i:2" aria-label="Фильтр проектов"></div>
+          </header>
+          <div class="works-grid" id="worksGrid"><!-- карточки из js/data/projects.js --></div>
+          <footer class="works-foot mono" data-reveal>
+            <span data-i18n="works_foot_note">ВСЕ ОБЛОЖКИ — ПРОЦЕДУРНЫЕ ШЕЙДЕРЫ, БЕЗ КАРТИНОК</span>
+            <button class="link-arrow" data-go="4" data-cursor="link" data-i18n="works_foot_cta">ХОЧУ ТАК ЖЕ →</button>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 ABOUT / УСЛУГИ -->
+    <section class="page" id="page-about" data-title="УСЛУГИ">
+      <div class="page-scroll">
+        <div class="page-content about">
+          <header class="about-head">
+            <p class="overline mono" data-reveal data-i18n="about_overline">03 // УСЛУГИ И ПОДХОД</p>
+            <h2 class="about-title glitchable" data-para="0.5">
+              <span class="line"><span class="line-in" style="--i:0" data-i18n-html="about_title_html">ЧТО Я <span class="accent">ДЕЛАЮ</span></span></span>
+            </h2>
+          </header>
+          <div class="about-cols">
+            <ul class="services" id="servicesList"><!-- из js/config.js --></ul>
+            <div class="about-side">
+              <div class="obj3d-wrap" data-reveal style="--i:1" data-cursor="view" data-cursor-label="КРУТИ" data-i18n-cursor="obj3d_cursor">
+                <canvas id="obj3dCanvas" data-i18n-aria="obj3d_aria" aria-label="Интерактивная 3D-сцена — потяните, чтобы вращать"></canvas>
+                <span class="obj3d-hint mono" data-i18n="obj3d_hint">// 3D В БРАУЗЕРЕ — ТЯНИ, ЧТОБЫ ВРАЩАТЬ</span>
+              </div>
+              <div class="approach" data-reveal style="--i:2">
+                <h3 class="mono" data-i18n="approach_title">// ПОДХОД</h3>
+                <p data-i18n="approach_body">Сначала смысл, потом эффекты. Каждый экран работает на доверие:
+                быстрая загрузка, читаемый текст, честные сроки. Разработка — от двух
+                недель, этапы прозрачные, правки — без сюрпризов.</p>
+              </div>
+              <div class="stats">
+                <div class="stat" data-reveal style="--i:3"><b class="num" data-num="07">00</b><span class="mono" data-i18n="stat1_label">ЛЕТ В РАЗРАБОТКЕ</span></div>
+                <div class="stat" data-reveal style="--i:4"><b class="num" data-num="40+">00</b><span class="mono" data-i18n="stat2_label">ПРОЕКТОВ ЗАПУЩЕНО</span></div>
+                <div class="stat" data-reveal style="--i:5"><b class="num" data-num="92%">00</b><span class="mono" data-i18n="stat3_label">КЛИЕНТОВ ВОЗВРАЩАЮТСЯ</span></div>
+              </div>
+              <div class="quotes" data-reveal style="--i:6">
+                <figure class="quote">
+                  <blockquote data-i18n="q1_body">«Сделал за три недели то, что предыдущий подрядчик не мог собрать год. Эффекты — как у студий с прайсом х10.»</blockquote>
+                  <figcaption class="mono" data-i18n="q1_who">— МАКС, ОСНОВАТЕЛЬ NEON DRIFT</figcaption>
+                </figure>
+                <figure class="quote">
+                  <blockquote data-i18n="q2_body">«Впервые магазин не тормозит на айфоне. Конверсия выросла с первого месяца.»</blockquote>
+                  <figcaption class="mono" data-i18n="q2_who">— КАТЯ, ГЛИТЧ.МАРКЕТ</figcaption>
+                </figure>
+                <figure class="quote">
+                  <blockquote data-i18n="q3_body">«Просто скинул ТЗ и забыл. Сроки, правки, запуск — всё как обещал.»</blockquote>
+                  <figcaption class="mono" data-i18n="q3_who">— АРТЁМ, ПОРТАЛ 9</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+          <div class="marquee mono" aria-hidden="true">
+            <div class="marquee-track" id="marqueeTrack"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 КАЛЬКУЛЯТОР -->
+    <section class="page" id="page-calc" data-title="КАЛЬКУЛЯТОР">
+      <div class="page-scroll">
+        <div class="page-content calc">
+          <header class="calc-head">
+            <p class="overline mono" data-reveal data-i18n="calc_overline">04 // КАЛЬКУЛЯТОР СТОИМОСТИ</p>
+            <h2 class="calc-title glitchable" data-para="0.5">
+              <span class="line"><span class="line-in" style="--i:0" data-i18n="calc_t1">ПОСЧИТАЙ</span></span>
+              <span class="line"><span class="line-in outline" style="--i:1" data-i18n="calc_t2">СВОЙ САЙТ</span></span>
+            </h2>
+            <p class="calc-note mono" data-reveal style="--i:2" data-i18n="calc_note">ПЯТЬ ВЫБОРОВ — И ПОРЯДОК ЦЕН НА ЭКРАНЕ · ТОЧНАЯ СМЕТА ПОСЛЕ БРИФА</p>
+          </header>
+          <div class="calc-cols">
+            <div class="calc-left">
+              <p class="mono calc-label" data-reveal style="--i:2" data-i18n="calc_label_type">01 // ТИП САЙТА</p>
+              <div class="calc-types" id="calcTypes" data-reveal style="--i:3"></div>
+              <div id="calcGroups"></div>
+            </div>
+            <aside class="calc-total" id="calcAside" data-reveal style="--i:4">
+              <p class="mono" data-i18n="calc_total_head">// ПРИМЕРНАЯ СТОИМОСТЬ</p>
+              <div class="calc-sum"><b id="calcSum">0 ₽</b></div>
+              <span class="mono calc-range" id="calcRange"></span>
+              <span class="mono calc-days" id="calcDays"></span>
+              <ul class="calc-includes mono" id="calcIncludes"></ul>
+              <button class="btn btn-solid" id="calcToForm" data-cursor="link"><span data-i18n="calc_to_form">ПЕРЕНОС В ЗАЯВКУ</span><i>→</i></button>
+              <p class="mono form-note" data-i18n="calc_note2">ОЦЕНКА ±15% · ФИНАЛЬНАЯ ЦЕНА ФИКСИРУЕТСЯ В ДОГОВОРЕ</p>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 CONTACT -->
+    <section class="page" id="page-contact" data-title="КОНТАКТ">
+      <div class="page-scroll">
+        <div class="page-content contact">
+          <p class="overline mono" data-reveal data-i18n="contact_overline">05 // КОНТАКТ</p>
+          <h2 class="contact-title glitchable" data-para="1">
+            <span class="line"><span class="line-in" style="--i:0" data-i18n="contact_t1">ОБСУДИМ</span></span>
+            <span class="line"><span class="line-in outline" style="--i:1" data-i18n="contact_t2">ПРОЕКТ?</span></span>
+          </h2>
+          <div class="contact-cols">
+            <div class="contact-left">
+              <p class="contact-sub" data-reveal style="--i:2" data-i18n="contact_sub">Опишите задачу — вернусь с планом
+              и оценкой в течение дня. Средний отклик — два часа.</p>
+
+              <p class="avail mono" data-avail hidden><i aria-hidden="true"></i><span></span></p>
+
+              <div class="contact-actions" data-reveal style="--i:3">
+                <a class="btn btn-solid" id="tgLink" href="#" target="_blank" rel="noopener" data-cursor="link">TELEGRAM<i>↗</i></a>
+                <button class="btn btn-ghost" id="copyEmail" data-cursor="link">hello@azoth.dev<i aria-hidden="true">⧉</i></button>
+              </div>
+
+              <ol class="steps mono" data-reveal style="--i:4" aria-label="Этапы работы">
+                <li><b>01</b> <span data-i18n="step1">БРИФ</span></li>
+                <li><b>02</b> <span data-i18n="step2">ПРОТОТИП</span></li>
+                <li><b>03</b> <span data-i18n="step3">РАЗРАБОТКА</span></li>
+                <li><b>04</b> <span data-i18n="step4">ЗАПУСК</span></li>
+              </ol>
+
+              <footer class="contact-foot mono" data-reveal style="--i:5">
+                <span data-i18n="foot_reply">ОТВЕЧАЮ 10:00—22:00 МСК</span><b>·</b><span id="footEmail">hello@azoth.dev</span><b>·</b><span id="footTg">@azoth_dev</span>
+              </footer>
+            </div>
+
+            <div class="contact-right">
+              <form class="lead-form" id="leadForm" data-reveal style="--i:4" autocomplete="off">
+                <div class="form-row">
+                  <label class="field">
+                    <span class="mono" data-i18n="f_name">ИМЯ</span>
+                    <input name="name" type="text" data-i18n-ph="ph_name" placeholder="Как к вам обращаться" required>
+                  </label>
+                  <label class="field">
+                    <span class="mono" data-i18n="f_contact">КОНТАКТ</span>
+                    <input name="contact" type="text" data-i18n-ph="ph_contact" placeholder="@telegram или e-mail" required>
+                  </label>
+                </div>
+                <label class="field">
+                  <span class="mono" data-i18n="f_task">ЗАДАЧА</span>
+                  <textarea name="task" rows="3" data-i18n-ph="ph_task" placeholder="Например: нужен лендинг для запуска продукта, с 3D-сценой на первом экране" required></textarea>
+                </label>
+                <!-- honeypot: боты заполнят, люди не увидят -->
+                <input class="hp" name="company" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <button class="btn btn-solid" type="submit" data-cursor="link"><span data-i18n="btn_submit">СОБРАТЬ ЗАЯВКУ</span><i>→</i></button>
+                <p class="form-note mono" data-i18n="form_note">БЕЗ БЭКЕНДА: ЗАЯВКА СОБЕРЁТСЯ В ТЕКСТ — ОТПРАВЬТЕ В TELEGRAM ИЛИ СКОПИРУЙТЕ</p>
+              </form>
+
+              <div class="lead-result" id="leadResult" hidden>
+                <p class="mono" data-i18n="lead_ready">// ЗАЯВКА ГОТОВА — ОТПРАВЬТЕ ЕЁ МНЕ</p>
+                <textarea id="leadText" rows="6" spellcheck="false"></textarea>
+                <div class="lead-actions">
+                  <button class="btn btn-solid" id="leadCopy" data-cursor="link"><span data-i18n="btn_copy">СКОПИРОВАТЬ</span><i>⧉</i></button>
+                  <a class="btn btn-ghost" id="leadTg" href="#" target="_blank" rel="noopener" data-cursor="link"><span data-i18n="btn_open_tg">ОТКРЫТЬ TELEGRAM</span><i>↗</i></a>
+                  <a class="btn btn-ghost" id="leadMail" href="#" data-cursor="link"><span data-i18n="btn_mail">ОТПРАВИТЬ НА ПОЧТУ</span><i>✉</i></a>
+                </div>
+              </div>
+
+              <div class="lead-result" id="leadSent" hidden>
+                <p class="mono" data-i18n="lead_sent">// ЗАЯВКА ОТПРАВЛЕНА — ОТВЕЧУ В ТЕЧЕНИЕ ДНЯ</p>
+                <button class="btn btn-ghost" id="leadAgain" data-cursor="link"><span data-i18n="btn_again">НОВАЯ ЗАЯВКА</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- МЕНЮ -->
+  <div id="menu" aria-hidden="true">
+    <div class="menu-inner">
+      <nav class="menu-nav">
+        <button data-go="0" data-cursor="link"><i class="mono">01</i><span class="glitchable" data-i18n-dt="nav_home" data-text="ГЛАВНАЯ">ГЛАВНАЯ</span></button>
+        <button data-go="1" data-cursor="link"><i class="mono">02</i><span class="glitchable" data-i18n-dt="nav_works" data-text="РАБОТЫ">РАБОТЫ</span></button>
+        <button data-go="2" data-cursor="link"><i class="mono">03</i><span class="glitchable" data-i18n-dt="nav_about" data-text="УСЛУГИ">УСЛУГИ</span></button>
+        <button data-go="3" data-cursor="link"><i class="mono">04</i><span class="glitchable" data-i18n-dt="nav_calc" data-text="КАЛЬКУЛЯТОР">КАЛЬКУЛЯТОР</span></button>
+        <button data-go="4" data-cursor="link"><i class="mono">05</i><span class="glitchable" data-i18n-dt="nav_contact" data-text="КОНТАКТ">КОНТАКТ</span></button>
+      </nav>
+      <div class="menu-foot mono">
+        <a id="menuTg" href="#" target="_blank" rel="noopener" data-cursor="link">TELEGRAM ↗</a>
+        <a id="menuMail" href="#" data-cursor="link">hello@azoth.dev</a>
+        <button class="lang-btn" data-cursor="link" aria-label="Switch language">EN</button>
+        <span data-i18n="menu_note">© 2026 — СДЕЛАНО НА WEBGL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- КЕЙС-ВЬЮ -->
+  <div id="caseModal" aria-hidden="true">
+    <div class="case-backdrop" data-close></div>
+    <article class="case-panel" role="dialog" aria-modal="true">
+      <button class="case-close mono" data-close data-cursor="link" data-i18n="case_close">ЗАКРЫТЬ ✕</button>
+      <div class="case-canvas-wrap"><canvas id="caseCanvas"></canvas><span class="case-tag mono" data-i18n="case_tag">ДЕМО-КОНЦЕПТ</span></div>
+      <div class="case-info">
+        <p class="mono" id="caseMeta">01 · 2026</p>
+        <h3 id="caseTitle">ПРОЕКТ</h3>
+        <div class="case-tags" id="caseTags"></div>
+        <p id="caseDesc"></p>
+        <ul class="case-results mono" id="caseResults"></ul>
+        <div class="case-thumbs mono" id="caseThumbs" aria-label="Кадры проекта"></div>
+        <div class="case-navrow">
+          <button class="btn btn-ghost" id="casePrev" data-cursor="link" data-i18n="case_prev">← ПРЕД</button>
+          <span class="mono" id="caseCount">01 / 06</span>
+          <button class="btn btn-ghost" id="caseNext" data-cursor="link" data-i18n="case_next">СЛЕД →</button>
+          <button class="btn btn-ghost" id="caseShare" data-cursor="link" title="Скопировать ссылку на этот кейс" data-i18n="case_share" data-i18n-title="case_share_title">⧉ ССЫЛКА</button>
+        </div>
+        <button class="btn btn-solid" data-go="4" id="caseCta" data-cursor="link"><span data-i18n="case_cta">ХОЧУ ТАК ЖЕ</span><i>→</i></button>
+      </div>
+    </article>
+  </div>
+
+  <!-- Курсор -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"><span class="cursor-label mono">СМОТРЕТЬ</span></div>
+
+  <!-- Тост -->
+  <div id="toast" class="mono" aria-live="polite"></div>
+
+  <noscript><div class="nojs">Включите JavaScript — сайт построен на WebGL. / Enable JavaScript — this site is built on WebGL.</div></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
