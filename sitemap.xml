@@ -1,10 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- При переезде на свой домен замените URL здесь, в robots.txt и index.html/js/config.js -->
+<!-- Генерируется tools/gen-case-pages.mjs. При переезде на свой домен
+     замените SITE_URL в js/config.js и перегенерируйте. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://deniskolzun13.github.io/azoth-site/</loc>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/neon-drift/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/orbita-coffee/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/vektor/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/glitch-market/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/portal-9/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/aero/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/liquid-metal/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/signal/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deniskolzun13.github.io/azoth-site/works/core/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>

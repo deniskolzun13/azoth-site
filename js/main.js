@@ -59,6 +59,14 @@ const cleanUrl = (h) => {
   const clean = location.pathname + location.search;
   return h ? `${clean}#${h}` : clean;
 };
+// '#case-<slug>' → индекс проекта; старые числовые '#case-N' тоже читаются
+const caseIndexFromHash = (h) => {
+  const key = h.slice(5);
+  const bySlug = PROJECTS.findIndex((p) => p.id === key);
+  if (bySlug >= 0) return bySlug;
+  const n = parseInt(key, 10);
+  return Number.isNaN(n) ? null : n - 1;
+};
 function push(h) {
   try { history.pushState({ azoth: 1 }, '', cleanUrl(h)); } catch (e) { /* noop */ }
 }
@@ -211,10 +219,10 @@ router.goTo = (i, opts = {}) => {
 window.addEventListener('popstate', () => {
   const h = location.hash.slice(1);
   if (h.startsWith('case-')) {
-    const n = parseInt(h.slice(5), 10);
-    if (Number.isNaN(n)) return;
+    const idx = caseIndexFromHash(h);
+    if (idx == null) return;
     if (router.current !== 1) router.goTo(1, { silent: true });
-    caseView.open(Math.max(0, Math.min(PROJECTS.length - 1, n - 1)), { pushHash: false });
+    caseView.open(Math.max(0, Math.min(PROJECTS.length - 1, idx)), { pushHash: false });
   } else {
     if (caseView.isOpen) caseView.close({ pushHash: false });
     const idx = PAGES.findIndex((p) => p.id === h);
@@ -237,10 +245,21 @@ document.addEventListener('click', (e) => {
 });
 
 window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') caseView.close();
+  if (e.key === 'Escape') {
+    if (caseView.lightboxOpen) caseView.closeLb();
+    else caseView.close();
+  }
   if (caseView.isOpen && !menu.isOpen) {
-    if (e.key === 'ArrowRight') { e.preventDefault(); caseView.nav(1); }
-    if (e.key === 'ArrowLeft') { e.preventDefault(); caseView.nav(-1); }
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      if (caseView.lightboxOpen) caseView.lbNav(1);
+      else caseView.nav(1);
+    }
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      if (caseView.lightboxOpen) caseView.lbNav(-1);
+      else caseView.nav(-1);
+    }
   }
   // presentation mode: H прячет весь HUD-хром (без модификаторов — не трогаем Ctrl+H)
   if (e.code === 'KeyH' && !e.ctrlKey && !e.metaKey && !e.altKey
@@ -362,14 +381,14 @@ function renderAvail() {
 renderAvail();
 onLang(renderAvail);
 
-// ---------- Старт: hash (#works, #about, #case-3) открывает нужный экран ----------
+// ---------- Старт: hash (#works, #about, #case-neon-drift) открывает нужный экран ----------
 const startHash = location.hash.slice(1);
 let startIndex = 0;
 let startCase = null;
 if (startHash.startsWith('case-')) {
   startIndex = 1;
-  const n = parseInt(startHash.slice(5), 10);
-  if (!Number.isNaN(n)) startCase = n - 1;
+  const idx = caseIndexFromHash(startHash);
+  if (idx != null) startCase = Math.max(0, Math.min(PROJECTS.length - 1, idx));
 } else {
   const hi = PAGES.findIndex((p) => p.id === startHash);
   if (hi >= 0) startIndex = hi;

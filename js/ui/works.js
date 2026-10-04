@@ -1,11 +1,18 @@
 // ============================================================
 // Страница «Работы»: сетка карточек, фильтры по категориям,
-// счётчик, клавиатурный доступ, видимость для WebGL-рендерера.
+// сортировка по году, режимы сетка/список (в списке — живое
+// WebGL-превью у курсора), клавиатурный доступ, видимость для
+// WebGL-рендерера.
 // ============================================================
 
 import { gsap } from 'gsap';
 import { PROJECTS } from '../data/projects.js';
 import { t, plural, getLang, onLang } from '../data/i18n.js';
+
+const VIEW_KEY = 'azoth-works-view';
+const YEARS = PROJECTS.map((p) => Number(p.year));
+const YEAR_MIN = Math.min(...YEARS);
+const YEAR_MAX = Math.max(...YEARS);
 
 // статичная 2D-заглушка обложки на случай отказа WebGL
 const FALLBACK_COLORS = [
@@ -36,6 +43,7 @@ function drawFallbackCover(item, i) {
 export function initWorks({ cards, audio, onOpenCase } = {}) {
   const grid = document.getElementById('worksGrid');
   const filtersEl = document.getElementById('worksFilters');
+  const toolsEl = document.getElementById('worksTools');
   const noteEl = document.getElementById('worksNote');
   if (!grid || !filtersEl) return null;
 
@@ -76,7 +84,78 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
     cardItems.push({ item, el: art, p });
   });
 
-  // фильтры: стабильный cat + подпись по языку
+  // ---------- сортировка и вид ----------
+  let sortDir = 'desc'; // год: новые сверху
+  let viewMode = 'grid';
+  try {
+    if (localStorage.getItem(VIEW_KEY) === 'list') viewMode = 'list';
+  } catch (e) { /* noop */ }
+
+  const sortBtn = document.createElement('button');
+  sortBtn.className = 'works-filter mono';
+  sortBtn.dataset.cursor = 'link';
+  sortBtn.type = 'button';
+  toolsEl?.appendChild(sortBtn);
+
+  const listBtn = document.createElement('button');
+  listBtn.className = 'works-filter mono';
+  listBtn.dataset.cursor = 'link';
+  listBtn.type = 'button';
+  toolsEl?.appendChild(listBtn);
+
+  const gridBtn = document.createElement('button');
+  gridBtn.className = 'works-filter mono';
+  gridBtn.dataset.cursor = 'link';
+  gridBtn.type = 'button';
+  toolsEl?.appendChild(gridBtn);
+
+  function refreshTools() {
+    sortBtn.textContent = `${t('works_sort_year')} ${sortDir === 'desc' ? '↓' : '↑'}`;
+    sortBtn.title = t('works_sort_aria');
+    sortBtn.setAttribute('aria-label', t('works_sort_aria'));
+    listBtn.textContent = t('works_view_list');
+    gridBtn.textContent = t('works_view_grid');
+    listBtn.classList.toggle('on', viewMode === 'list');
+    gridBtn.classList.toggle('on', viewMode === 'grid');
+    listBtn.setAttribute('aria-pressed', String(viewMode === 'list'));
+    gridBtn.setAttribute('aria-pressed', String(viewMode === 'grid'));
+  }
+
+  // ---------- живое превью у курсора (режим списка) ----------
+  const previewWrap = document.createElement('div');
+  previewWrap.className = 'works-preview';
+  previewWrap.setAttribute('aria-hidden', 'true');
+  const previewCanvas = document.createElement('canvas');
+  previewWrap.appendChild(previewCanvas);
+  if (cards.ok) document.body.appendChild(previewWrap);
+  const previewItem = cards.ok
+    ? cards.add(previewCanvas, { variant: 0, seed: 0, vp: [640, 400], page: 'works' })
+    : null;
+
+  function hidePreview() {
+    previewWrap.classList.remove('show');
+    if (previewItem) previewItem.visible = false;
+  }
+  function showPreview(p, seed) {
+    if (!previewItem || viewMode !== 'list') return;
+    previewItem.variant = p.variant;
+    previewItem.seed = seed;
+    previewItem.visible = true;
+    previewWrap.classList.add('show');
+  }
+  function movePreview(e) {
+    if (viewMode !== 'list') return;
+    const w = 300, h = 188;
+    let x = e.clientX + 26;
+    if (x + w + 10 > window.innerWidth) x = e.clientX - w - 26;
+    let y = Math.min(Math.max(10, e.clientY - h / 2), window.innerHeight - h - 10);
+    previewWrap.style.left = `${x}px`;
+    previewWrap.style.top = `${y}px`;
+  }
+  grid.addEventListener('pointermove', movePreview);
+  grid.addEventListener('pointerleave', hidePreview);
+
+  // ---------- фильтры: стабильный cat + подпись по языку ----------
   const catIds = [...new Set(PROJECTS.map((p) => p.cat))];
   const catBtns = new Map();
   catIds.forEach((cat) => {
@@ -84,6 +163,7 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
     b.className = 'works-filter mono';
     b.dataset.cat = cat;
     b.dataset.cursor = 'link';
+    b.type = 'button';
     b.setAttribute('aria-pressed', 'false');
     filtersEl.appendChild(b);
     catBtns.set(cat, b);
@@ -92,6 +172,7 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
   allBtn.className = 'works-filter mono on';
   allBtn.dataset.cat = 'ALL';
   allBtn.dataset.cursor = 'link';
+  allBtn.type = 'button';
   allBtn.setAttribute('aria-pressed', 'true');
   filtersEl.prepend(allBtn);
 
@@ -103,12 +184,46 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
   }
 
   let currentCat = 'ALL';
+
+  // порядок отображения: текущая сортировка по году
+  function displayOrder() {
+    const arr = [...cardItems];
+    arr.sort((a, b) =>
+      sortDir === 'desc' ? Number(b.p.year) - Number(a.p.year) : Number(a.p.year) - Number(b.p.year)
+    );
+    return arr;
+  }
+
+  // видимость по фильтру + ритм широких карточек + перенумерация
+  function applyVisibility(animate) {
+    let di = 0;
+    let pos = 0;
+    displayOrder().forEach(({ el, p }) => {
+      const show = currentCat === 'ALL' || p.cat === currentCat;
+      el.classList.toggle('is-hidden', !show);
+      el.classList.toggle('wide', show && viewMode === 'grid' && pos % 3 === 0);
+      if (show) {
+        el.querySelector('.work-idx').textContent = String(pos + 1).padStart(2, '0');
+        if (animate) {
+          gsap.fromTo(el, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, delay: di++ * 0.05, ease: 'power3.out' });
+        }
+        pos++;
+      }
+    });
+    updateNote();
+  }
+
+  function applyOrder(animate = false) {
+    displayOrder().forEach(({ el }) => grid.appendChild(el));
+    applyVisibility(animate);
+  }
+
   function updateNote() {
     if (!noteEl) return;
-    const n = cardItems.filter(({ el }) => !el.classList.contains('is-hidden')).length;
+    const n = cardItems.filter(({ p }) => currentCat === 'ALL' || p.cat === currentCat).length;
     noteEl.innerHTML =
       `<span class="acc">${n} ${plural(n, 'works_count_1', 'works_count_2', 'works_count_5')}</span>` +
-      ` · 2024—2026 · <span class="works-hover">${t('works_hover')}</span>`;
+      ` · ${YEAR_MIN}—${YEAR_MAX} · <span class="works-concept">${t('works_concept')}</span>`;
   }
 
   filtersEl.addEventListener('click', (e) => {
@@ -119,22 +234,42 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
       x.setAttribute('aria-pressed', String(x === b));
     });
     currentCat = b.dataset.cat;
-    let di = 0;
-    cardItems.forEach(({ el }, i) => {
-      const show = currentCat === 'ALL' || PROJECTS[i].cat === currentCat;
-      el.classList.toggle('is-hidden', !show);
-      if (show) {
-        gsap.fromTo(el, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.55, delay: di++ * 0.05, ease: 'power3.out' });
-      }
-    });
-    updateNote();
+    hidePreview();
+    applyVisibility(true);
     audio?.blip(980, 0.05, 0.03);
   });
 
+  sortBtn.addEventListener('click', () => {
+    sortDir = sortDir === 'desc' ? 'asc' : 'desc';
+    hidePreview();
+    applyOrder(false);
+    refreshTools();
+    audio?.blip(860, 0.05, 0.03);
+  });
+
+  function setView(mode) {
+    if (viewMode === mode) return;
+    viewMode = mode;
+    grid.classList.toggle('is-list', mode === 'list');
+    hidePreview();
+    applyVisibility(false);
+    refreshTools();
+    try { localStorage.setItem(VIEW_KEY, mode); } catch (e) { /* noop */ }
+    audio?.blip(1080, 0.05, 0.03);
+  }
+  listBtn.addEventListener('click', () => setView('list'));
+  gridBtn.addEventListener('click', () => setView('grid'));
+
   // hover / tilt-вход / клик / клавиатура
-  cardItems.forEach(({ item, el }, i) => {
-    el.addEventListener('pointerenter', () => { item.hoverT = 1; });
-    el.addEventListener('pointerleave', () => { item.hoverT = 0; item.mx = 0; item.my = 0; });
+  cardItems.forEach(({ item, el, p }, i) => {
+    el.addEventListener('pointerenter', () => {
+      item.hoverT = 1;
+      showPreview(p, i * 1.7 + 0.3);
+    });
+    el.addEventListener('pointerleave', () => {
+      item.hoverT = 0; item.mx = 0; item.my = 0;
+      hidePreview();
+    });
     el.addEventListener('pointermove', (e) => {
       const r = el.querySelector('.work-cover').getBoundingClientRect();
       item.mx = ((e.clientX - r.left) / r.width) * 2 - 1;
@@ -175,11 +310,14 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
       if (!cards.ok) drawFallbackCover(cardItems[i].item, i);
     });
     refreshFilterLabels();
+    refreshTools();
     updateNote();
   });
 
   refreshFilterLabels();
-  updateNote();
+  refreshTools();
+  grid.classList.toggle('is-list', viewMode === 'list');
+  applyOrder(false);
 
   return { cardItems };
 }
