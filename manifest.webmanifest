@@ -4,8 +4,8 @@
   "description": "Лендинги, магазины и корпоративные сайты с WebGL/3D-эффектами.",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#05010f",
-  "theme_color": "#05010f",
+  "background_color": "#050505",
+  "theme_color": "#050505",
   "icons": [
     { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
     { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },

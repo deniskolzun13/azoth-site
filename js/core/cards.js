@@ -26,7 +26,7 @@ export class Cards {
     }
     this.renderer.setPixelRatio(1);
     this.renderer.setSize(RW, RH, false);
-    this.renderer.setClearColor(0x05010f, 1);
+    this.renderer.setClearColor(0x050505, 1);
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -72,7 +72,7 @@ export class Cards {
 
     this.wire = new THREE.LineSegments(
       new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(1.5, 1)),
-      new THREE.LineBasicMaterial({ color: 0x7c5cff, transparent: true, opacity: 0.28 })
+      new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.28 })
     );
     this.wire.frustumCulled = false;
     this.scene3d.add(this.wire);

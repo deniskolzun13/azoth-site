@@ -80,13 +80,13 @@ export function makeBgFrag(oct) {
     vec2 warp = vec2(fbm(np * 1.5 + uTime * 0.045), fbm(np * 1.5 - uTime * 0.04 + 5.2));
     float n = fbm(np * 1.7 + 1.6 * warp);
     float nebAmp = 1.0 - 0.14 * uMode;
-    vec3 col = mix(vec3(0.014, 0.004, 0.052), vec3(0.085, 0.045, 0.27), smoothstep(0.30, 0.92, n) * nebAmp);
-    col += vec3(0.30, 0.20, 0.78) * pow(smoothstep(0.55, 1.05, n), 2.4) * (0.42 + 0.35 * uMouseVel) * nebAmp;
-    col += vec3(0.10, 0.06, 0.30) * pow(max(0.0, 1.0 - abs(uv.y) * 0.85), 3.0) * 0.32;
+    vec3 col = mix(vec3(0.015), vec3(0.07), smoothstep(0.30, 0.92, n) * nebAmp);
+    col += vec3(0.26) * pow(smoothstep(0.55, 1.05, n), 2.4) * (0.42 + 0.35 * uMouseVel) * nebAmp;
+    col += vec3(0.09) * pow(max(0.0, 1.0 - abs(uv.y) * 0.85), 3.0) * 0.32;
 
     // пульс ядра на «Контакте»
     float pulse = smoothstep(2.5, 3.0, uMode);
-    col += vec3(0.49, 0.36, 1.0) * pulse * 0.18 * (0.5 + 0.5 * sin(uTime * 1.4)) * exp(-dot(uv, uv) * 2.2);
+    col += vec3(0.43) * pulse * 0.18 * (0.5 + 0.5 * sin(uTime * 1.4)) * exp(-dot(uv, uv) * 2.2);
 
     // сетка-комната: пол, потолок, задняя стена (разгоняется при скролле)
     vec3 ro = vec3(0.0, 0.0, mod(uTime * (0.5 + uFlow * 1.8), 6.0) - 3.0);
@@ -95,7 +95,7 @@ export function makeBgFrag(oct) {
     rd.yz = rot2(-0.12 - uMouse.y * 0.06) * rd.yz;
 
     float gridB = (1.0 - 0.10 * uMode) * (1.0 + 0.30 * uFlow);
-    vec3 gc = vec3(0.42, 0.30, 0.95);
+    vec3 gc = vec3(0.37);
 
     if (rd.y < -0.015) {
       float tf = -1.15 / rd.y;
@@ -104,7 +104,7 @@ export function makeBgFrag(oct) {
       float g1 = gridLines(hit.xz, 1.15);
       float g2 = gridLines(hit.xz / 6.0, 1.7) * 0.5;
       col += gc * (g1 * 0.85 + g2 * 0.52) * fog * gridB;
-      col += vec3(0.66, 0.56, 1.0) * crossMark(hit.xz) * fog * gridB * 1.5;
+      col += vec3(0.61) * crossMark(hit.xz) * fog * gridB * 1.5;
     }
     if (rd.y > 0.015) {
       float tc = 1.55 / rd.y;
@@ -120,8 +120,8 @@ export function makeBgFrag(oct) {
       float fog = exp(-tw * 0.065) * 0.9;
       float g1 = gridLines(hit.xy, 1.15);
       float g2 = gridLines(hit.xy / 6.0, 1.7) * 0.5;
-      col += vec3(0.36, 0.25, 0.85) * (g1 * 0.55 + g2 * 0.42) * fog * gridB;
-      col += vec3(0.55, 0.45, 1.0) * crossMark(hit.xy) * fog * gridB * 1.1;
+      col += vec3(0.32) * (g1 * 0.55 + g2 * 0.42) * fog * gridB;
+      col += vec3(0.51) * crossMark(hit.xy) * fog * gridB * 1.1;
     }
     return col;
   }
@@ -146,7 +146,7 @@ export function makeBgFrag(oct) {
       float ca = 0.016 * uGlitch;
       col.r = scene(guv + vec2(ca, 0.0)).r;
       col.b = scene(guv - vec2(ca, 0.0)).b;
-      col += vec3(0.05, 0.02, 0.11) * uGlitch;
+      col += vec3(0.033) * uGlitch;
     }
 
     // проявление из шума (прелоадер)
@@ -155,7 +155,7 @@ export function makeBgFrag(oct) {
       float th = mix(1.25, -0.15, uIntro);
       float m = smoothstep(th - 0.18, th + 0.18, nz);
       col *= mix(0.05, 1.0, m);
-      col += vec3(0.45, 0.33, 1.0) * (1.0 - uIntro) * 0.55 * m * (1.0 - m);
+      col += vec3(0.40) * (1.0 - uIntro) * 0.55 * m * (1.0 - m);
     }
 
     // защита центра под текст
@@ -226,8 +226,8 @@ export const PARTICLE_FRAG = /* glsl */`
   void main(){
     float d = length(gl_PointCoord - 0.5);
     float a = smoothstep(0.5, 0.06, d);
-    vec3 col = mix(vec3(0.88, 0.82, 1.0), vec3(0.49, 0.36, 1.0), step(0.62, vRand));
-    col += vec3(0.20, 0.14, 0.40) * vGlow;
+    vec3 col = mix(vec3(0.85), vec3(0.43), step(0.62, vRand));
+    col += vec3(0.17) * vGlow;
     float alpha = a * uAlpha * mix(0.35, 0.95, vGlow) * (1.0 - uRelease * 0.55);
     gl_FragColor = vec4(col, alpha);
   }
@@ -280,13 +280,13 @@ export const OBJ3D_FRAG = /* glsl */`
   void main(){
     vec3 n = normalize(vNv);
     float fres = pow(1.0 - abs(dot(n, vec3(0.0, 0.0, 1.0))), 2.0);
-    vec3 base = vec3(0.045, 0.02, 0.13);
-    vec3 rim = mix(vec3(0.49, 0.36, 1.0), vec3(0.31, 0.94, 1.0), fres);
+    vec3 base = vec3(0.033);
+    vec3 rim = mix(vec3(0.43), vec3(0.81), fres);
     vec3 col = base + rim * fres * (0.95 + 0.7 * uDrag);
     // бегущие сканлайн-полосы по сфере
-    col += vec3(0.49, 0.36, 1.0) * 0.16 * smoothstep(0.42, 0.5, abs(fract(vP.y * 3.5 + uTime * 0.4) - 0.5));
+    col += vec3(0.43) * 0.16 * smoothstep(0.42, 0.5, abs(fract(vP.y * 3.5 + uTime * 0.4) - 0.5));
     // мягкий свет сверху-справа
-    col += vec3(0.40, 0.30, 0.90) * 0.22 * max(dot(n, normalize(vec3(0.4, 0.8, 0.5))), 0.0);
+    col += vec3(0.37) * 0.22 * max(dot(n, normalize(vec3(0.4, 0.8, 0.5))), 0.0);
     gl_FragColor = vec4(col, 1.0);
   }
 `;
@@ -322,9 +322,9 @@ export function makeCardFrag(oct) {
       float w = fbm(q * 1.4 + 1.2 * vec2(fbm(q + uTime * 0.03), fbm(q - 7.7)));
       float bands = abs(fract(w * 6.0 - uTime * 0.1) - 0.5);
       float line = smoothstep(0.12, 0.0, bands);
-      vec3 col = mix(vec3(0.020, 0.008, 0.060), vec3(0.100, 0.055, 0.300), w);
-      col += vec3(0.49, 0.36, 1.0) * line * 0.85;
-      col += vec3(0.31, 0.94, 1.0) * pow(smoothstep(0.72, 1.0, w), 2.0) * 0.5;
+      vec3 col = mix(vec3(0.025), vec3(0.08), w);
+      col += vec3(0.43) * line * 0.85;
+      col += vec3(0.81) * pow(smoothstep(0.72, 1.0, w), 2.0) * 0.5;
       return col;
     } else if (uVariant < 1.5) {
       // 1 — глитч-мозаика
@@ -335,10 +335,10 @@ export function makeCardFrag(oct) {
       float hot = step(0.78, h);
       vec2 q = p + off * 0.30 * hot;
       float g = gridLines(q * 7.0, 1.2);
-      vec3 col = vec3(0.028, 0.012, 0.080);
-      col += vec3(0.49, 0.36, 1.0) * g * (0.22 + 0.78 * hot);
-      col += vec3(0.98, 0.24, 0.51) * step(0.94, hash21(cell + 3.3)) * 0.7;
-      col += vec3(0.31, 0.94, 1.0) * step(0.965, hash21(cell + 9.9)) * 0.6;
+      vec3 col = vec3(0.03);
+      col += vec3(0.43) * g * (0.22 + 0.78 * hot);
+      col += vec3(0.55) * step(0.94, hash21(cell + 3.3)) * 0.7;
+      col += vec3(0.81) * step(0.965, hash21(cell + 9.9)) * 0.6;
       return col;
     } else if (uVariant < 2.5) {
       // 2 — воронка-портал
@@ -346,9 +346,9 @@ export function makeCardFrag(oct) {
       float a = atan(p.y, p.x);
       float swirl = a + r * 4.5 - uTime * 0.4 + uSeed;
       float n = fbm(vec2(swirl * 1.3, r * 3.2 - uTime * 0.22));
-      vec3 col = mix(vec3(0.018, 0.006, 0.070), vec3(0.140, 0.070, 0.420), n);
-      col += vec3(0.55, 0.40, 1.0) * exp(-r * 3.4) * (0.65 + 0.35 * sin(uTime * 2.0));
-      col += vec3(0.31, 0.94, 1.0) * exp(-abs(r - 0.62) * 15.0) * 0.5 * smoothstep(0.3, 0.65, fbm(p * 4.0 + uTime * 0.1));
+      vec3 col = mix(vec3(0.022), vec3(0.11), n);
+      col += vec3(0.48) * exp(-r * 3.4) * (0.65 + 0.35 * sin(uTime * 2.0));
+      col += vec3(0.81) * exp(-abs(r - 0.62) * 15.0) * 0.5 * smoothstep(0.3, 0.65, fbm(p * 4.0 + uTime * 0.1));
       return col;
     } else if (uVariant < 3.5) {
       // 3 — жидкий металл
@@ -356,13 +356,13 @@ export function makeCardFrag(oct) {
       float w1 = fbm(q * 2.0 + vec2(uTime * 0.09, -uTime * 0.05));
       float w2 = fbm(q * 2.0 + w1 * 2.4 + vec2(-uTime * 0.06, uTime * 0.07));
       float spec = pow(abs(sin(w2 * 9.0 + uTime * 0.3)), 6.0);
-      vec3 col = mix(vec3(0.030, 0.020, 0.090), vec3(0.160, 0.100, 0.450), w2);
-      col += vec3(0.75, 0.62, 1.0) * spec * 0.85;
-      col += vec3(0.31, 0.94, 1.0) * pow(w2, 5.0) * 0.35;
+      vec3 col = mix(vec3(0.035), vec3(0.14), w2);
+      col += vec3(0.68) * spec * 0.85;
+      col += vec3(0.81) * pow(w2, 5.0) * 0.35;
       return col;
     } else if (uVariant < 4.5) {
       // 4 — сигнал: волны
-      vec3 col = vec3(0.024, 0.010, 0.070);
+      vec3 col = vec3(0.03);
       float drops = 0.0;
       for (int i = 0; i < 3; i++){
         float fi = float(i);
@@ -371,10 +371,10 @@ export function makeCardFrag(oct) {
                  + 0.05 * sin(p.x * 15.0 - uTime * 1.3 + fi * 0.7)
                  + 0.06 * (fbm(vec2(p.x * 3.0 + fi * 9.0, uTime * 0.2)) - 0.5);
         float d = abs(p.y - yc - wv);
-        col += mix(vec3(0.49, 0.36, 1.0), vec3(0.31, 0.94, 1.0), fi * 0.5) * exp(-d * 34.0) * 0.9;
+        col += mix(vec3(0.43), vec3(0.81), fi * 0.5) * exp(-d * 34.0) * 0.9;
         drops += step(0.93, hash21(vec2(floor((p.x + 2.0) * 22.0), fi + floor(uTime * 0.6)))) * exp(-d * 60.0) * 0.35;
       }
-      col += vec3(0.49, 0.36, 1.0) * drops;
+      col += vec3(0.43) * drops;
       return col;
     }
     // 5 — вороной-ядро
@@ -391,9 +391,9 @@ export function makeCardFrag(oct) {
       }
     }
     float edge = md2 - md;
-    vec3 col = mix(vec3(0.018, 0.008, 0.065), vec3(0.100, 0.050, 0.320), 1.0 - md);
-    col += vec3(0.55, 0.42, 1.0) * smoothstep(0.13, 0.0, edge) * 1.15;
-    col += vec3(0.31, 0.94, 1.0) * smoothstep(0.035, 0.0, edge) * 0.7;
+    vec3 col = mix(vec3(0.022), vec3(0.085), 1.0 - md);
+    col += vec3(0.49) * smoothstep(0.13, 0.0, edge) * 1.15;
+    col += vec3(0.81) * smoothstep(0.035, 0.0, edge) * 0.7;
     return col;
   }
 

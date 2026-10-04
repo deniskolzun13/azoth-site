@@ -9,8 +9,8 @@ import { t, plural, getLang, onLang } from '../data/i18n.js';
 
 // статичная 2D-заглушка обложки на случай отказа WebGL
 const FALLBACK_COLORS = [
-  ['#0a0618', '#3a2496'], ['#0c0416', '#5c1f4e'], ['#080618', '#2c3ba8'],
-  ['#0e0718', '#6a4ac8'], ['#070414', '#1f6f9e'], ['#0a0518', '#44309c'],
+  ['#0a0a0a', '#333333'], ['#0c0c0c', '#292929'], ['#080808', '#383838'],
+  ['#0e0e0e', '#595959'], ['#070707', '#616161'], ['#0a0a0a', '#383838'],
 ];
 function drawFallbackCover(item, i) {
   const c = item.canvas;
@@ -23,7 +23,7 @@ function drawFallbackCover(item, i) {
   g.addColorStop(1, c1);
   ctx.fillStyle = g;
   ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = 'rgba(167, 139, 250, 0.25)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
   ctx.lineWidth = 1;
   for (let y = (i % 3) * 12 + 8; y < h; y += 18) {
     ctx.beginPath();
