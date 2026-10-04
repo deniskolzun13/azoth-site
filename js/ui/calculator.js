@@ -29,6 +29,7 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
   let lastPickedLabels = [];
   let lastTotal = 0;
   let lastDays = '';
+  let lastSpeed = '';
 
   // значения по умолчанию
   CALC.groups.forEach((g) => {
@@ -47,6 +48,8 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
       b.type = 'button';
       b.className = 'calc-type' + (x.id === state.type ? ' on' : '');
       b.dataset.cursor = 'link';
+      b.dataset.t = x.id;
+      b.setAttribute('aria-pressed', String(x.id === state.type));
       b.innerHTML =
         `<span class="calc-type-name">${x.label[getLang()]}</span>` +
         `<span class="mono">${t('calc_from', { p: fmt(x.price) })}</span>`;
@@ -58,6 +61,7 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
         renderTypes();
         renderGroups();
         update(true);
+        typesEl.querySelector(`[data-t="${x.id}"]`)?.focus({ preventScroll: true });
       });
       typesEl.appendChild(b);
     });
@@ -84,6 +88,8 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
         b.type = 'button';
         b.className = 'calc-chip mono' + (on ? ' on' : '');
         b.dataset.cursor = 'link';
+        b.dataset.g = g.id;
+        b.dataset.o = o.id;
         b.setAttribute('aria-pressed', String(on));
         const priceTxt = o.factor
           ? (o.factor > 1 ? `×${o.factor}` : '')
@@ -106,6 +112,7 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
             renderGroups();
             audio?.blip(1050, 0.045, 0.026);
             update(true);
+            groupsEl.querySelector(`[data-g="${g.id}"][data-o="${o.id}"]`)?.focus({ preventScroll: true });
           }
         });
         box.appendChild(b);
@@ -124,6 +131,7 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
     const pickedLabels = [];
 
     visibleGroups().forEach((g) => {
+      if (g.id === 'speed') return; // срочность — модификатор цены, не «включение»
       const cur = state.sel[g.id];
       if (g.single) {
         const o = g.options.find((q) => q.id === cur);
@@ -144,19 +152,31 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
       }
     });
 
+    // множитель цены от одиночных групп: редизайн ×0.85, срочность ×1.25–1.5
+    let factor = 1;
+    visibleGroups().forEach((g) => {
+      if (!g.single || g.id === 'speed') return; // срочность учтена ниже
+      const o = g.options.find((q) => q.id === state.sel[g.id]);
+      if (o?.factor) factor *= o.factor;
+    });
     const speedOpt = optionById('speed', state.sel.speed);
-    const factor = speedOpt?.factor || 1;
+    const speedFactor = speedOpt?.factor || 1;
+    const speedLabel = speedOpt && speedFactor > 1 ? speedOpt.label[getLang()] : '';
+    factor *= speedFactor;
 
     const total = Math.round((sum * factor) / 1000) * 1000;
     const lo = Math.round((total * 0.9) / 1000) * 1000;
     const hi = Math.round((total * 1.15) / 1000) * 1000;
-    const tf = factor > 1 ? 2 - factor : 1; // срочность сжимает срок
+    const tf = speedOpt?.tf || 1; // срочность сжимает срок
     dmin = Math.max(1, Math.round(dmin * tf));
     dmax = Math.max(2, Math.round(dmax * tf));
 
     lastPickedLabels = pickedLabels;
     lastTotal = total;
-    lastDays = `${dmin}–${dmax} ${t('calc_weeks')}`;
+    lastSpeed = speedLabel;
+    lastDays = dmin === dmax
+      ? `${dmin} ${t('calc_weeks')}`
+      : `${dmin}–${dmax} ${t('calc_weeks')}`;
     rangeEl.textContent = t('calc_range', { a: fmt(lo), b: fmt(hi) });
     daysEl.textContent = t('calc_days', { d: lastDays });
     inclEl.innerHTML = pickedLabels.length
@@ -192,7 +212,7 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
       `${t('brief_head')}\n` +
       `${t('brief_type')} ${x.label[getLang()]}\n` +
       `${t('brief_opts')} ${lastPickedLabels.length ? lastPickedLabels.join('; ') : t('calc_base')}\n` +
-      `${t('brief_budget')} ${fmt(lastTotal)} ₽, ${t('brief_deadline')}${lastDays}`;
+      `${t('brief_budget')} ${fmt(lastTotal)} ₽, ${t('brief_deadline')}${lastDays}${lastSpeed ? `, ${lastSpeed}` : ''}`;
 
     if (form && taskEl) {
       if (result && !result.hidden) { result.hidden = true; form.hidden = false; }
