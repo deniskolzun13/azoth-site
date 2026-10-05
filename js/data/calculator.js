@@ -1,6 +1,6 @@
 // ============================================================
 // ДАННЫЕ КАЛЬКУЛЯТОРА СТОИМОСТИ.
-// 01 — сфера бизнеса (10 категорий): у каждой своя базовая
+// 01 — сфера бизнеса (20 категорий): у каждой своя базовая
 // цена/срок и свой блок допов (группы only: [id]).
 // Остальные группы универсальные; «ЗАДАЧА» даёт скидку
 // редизайна (factor ×0.85), «СРОКИ» — наценку (×1.25–1.5)
@@ -23,6 +23,16 @@ export const CALC = {
     { id: 'build',  label: { ru: 'СТРОИТЕЛЬСТВО / РЕМОНТ', en: 'CONSTRUCTION / RENO' }, price: 26000, days: [3, 4] },
     { id: 'shop',   label: { ru: 'МАГАЗИН / E-COMMERCE',   en: 'STORE / E-COMMERCE' },  price: 52000, days: [6, 8] },
     { id: 'hotel',  label: { ru: 'ОТЕЛИ / ТУРИЗМ',         en: 'HOTELS / TRAVEL' },     price: 30000, days: [3, 5] },
+    { id: 'auto',   label: { ru: 'АВТОСЕРВИС / ДЕТЕЙЛИНГ', en: 'AUTO SERVICE / DETAILING' }, price: 22000, days: [2, 3] },
+    { id: 'logi',   label: { ru: 'ЛОГИСТИКА / ПЕРЕЕЗДЫ',   en: 'LOGISTICS / MOVERS' },  price: 26000, days: [3, 4] },
+    { id: 'furn',   label: { ru: 'МЕБЕЛЬ НА ЗАКАЗ',        en: 'CUSTOM FURNITURE' },    price: 30000, days: [3, 5] },
+    { id: 'event',  label: { ru: 'EVENT / ФОТОГРАФЫ',      en: 'EVENTS / PHOTOGRAPHERS' }, price: 22000, days: [2, 3] },
+    { id: 'clean',  label: { ru: 'КЛИНИНГ',                en: 'CLEANING' },            price: 18000, days: [2, 3] },
+    { id: 'fix',    label: { ru: 'РЕМОНТ ТЕХНИКИ',         en: 'DEVICE REPAIR' },       price: 22000, days: [2, 3] },
+    { id: 'fin',    label: { ru: 'БУХГАЛТЕРИЯ / СТРАХОВАНИЕ', en: 'ACCOUNTING / INSURANCE' }, price: 24000, days: [2, 4] },
+    { id: 'kids',   label: { ru: 'ДЕТЦЕНТРЫ / АВТОШКОЛЫ',  en: 'KIDS CENTERS / DRIVING SCHOOL' }, price: 24000, days: [3, 4] },
+    { id: 'rent',   label: { ru: 'ПРОКАТ / АРЕНДА',        en: 'RENTALS' },             price: 30000, days: [3, 5] },
+    { id: 'spa',    label: { ru: 'СПА / БАНИ / БАНКЕТЫ',   en: 'SPA / SAUNA / BANQUETS' }, price: 26000, days: [3, 4] },
   ],
 
   groups: [
@@ -165,6 +175,86 @@ export const CALC = {
         { id: 'book',   label: { ru: 'БРОНИРОВАНИЕ НОМЕРОВ', en: 'ROOM BOOKING' }, price: 10000, days: 1 },
         { id: 'rooms',  label: { ru: 'КАТАЛОГ НОМЕРОВ / ТУРОВ', en: 'ROOMS / TOURS CATALOG' }, price: 5000, days: 0 },
         { id: 'reviews',label: { ru: 'ОТЗЫВЫ И РЕЙТИНГИ', en: 'REVIEWS & RATINGS' }, price: 3000, days: 0 },
+      ],
+    },
+    {
+      id: 'autoextra', label: { ru: 'ДЛЯ АВТОСЕРВИСА', en: 'AUTO EXTRAS' }, only: ['auto'], single: false,
+      options: [
+        { id: 'book', label: { ru: 'ОНЛАЙН-ЗАПИСЬ НА СТО', en: 'SERVICE BOOKING' }, price: 9000, days: 1 },
+        { id: 'price',label: { ru: 'ПРАЙС ПО РАБОТАМ', en: 'WORKS PRICE LIST' }, price: 3000, days: 0 },
+        { id: 'calc', label: { ru: 'КАЛЬКУЛЯТОР ПО МАРКЕ АВТО', en: 'CALC BY CAR MODEL' }, price: 8000, days: 1 },
+      ],
+    },
+    {
+      id: 'logiextra', label: { ru: 'ДЛЯ ПЕРЕВОЗОК', en: 'LOGISTICS EXTRAS' }, only: ['logi'], single: false,
+      options: [
+        { id: 'calc',  label: { ru: 'КАЛЬКУЛЯТОР ПЕРЕВОЗКИ', en: 'SHIPPING CALCULATOR' }, price: 10000, days: 1 },
+        { id: 'crew',  label: { ru: 'ЗАЯВКА НА ГРУЗЧИКОВ', en: 'MOVERS REQUEST' }, price: 7000, days: 0 },
+        { id: 'routes',label: { ru: 'ПРАЙС ПО НАПРАВЛЕНИЯМ', en: 'ROUTES PRICE LIST' }, price: 4000, days: 0 },
+      ],
+    },
+    {
+      id: 'furnextra', label: { ru: 'ДЛЯ МЕБЕЛИ', en: 'FURNITURE EXTRAS' }, only: ['furn'], single: false,
+      options: [
+        { id: 'folio', label: { ru: 'ПОРТФОЛИО ИЗДЕЛИЙ', en: 'WORKS PORTFOLIO' }, price: 4000, days: 0 },
+        { id: 'config',label: { ru: 'КОНСТРУКТОР ЗАКАЗА', en: 'ORDER CONFIGURATOR' }, price: 12000, days: 1 },
+        { id: 'b2b',   label: { ru: 'ЗАПРОС КП ДЛЯ B2B', en: 'B2B QUOTE REQUEST' }, price: 6000, days: 1 },
+      ],
+    },
+    {
+      id: 'eventextra', label: { ru: 'ДЛЯ ИВЕНТОВ', en: 'EVENT EXTRAS' }, only: ['event'], single: false,
+      options: [
+        { id: 'folio', label: { ru: 'ПОРТФОЛИО ПО ДАТАМ', en: 'PORTFOLIO BY DATE' }, price: 4000, days: 0 },
+        { id: 'date',  label: { ru: 'БРОНЬ ДАТЫ С ПРЕДОПЛАТОЙ', en: 'DATE BOOKING + DEPOSIT' }, price: 10000, days: 1 },
+        { id: 'packs', label: { ru: 'ПАКЕТЫ УСЛУГ', en: 'SERVICE PACKAGES' }, price: 3000, days: 0 },
+      ],
+    },
+    {
+      id: 'cleanextra', label: { ru: 'ДЛЯ КЛИНИНГА', en: 'CLEANING EXTRAS' }, only: ['clean'], single: false,
+      options: [
+        { id: 'calc',  label: { ru: 'КАЛЬКУЛЯТОР УБОРКИ', en: 'CLEANING CALCULATOR' }, price: 10000, days: 1 },
+        { id: 'order', label: { ru: 'ОНЛАЙН-ЗАКАЗ', en: 'ONLINE ORDER' }, price: 7000, days: 1 },
+        { id: 'price', label: { ru: 'ПРАЙС ПО ПОМЕЩЕНИЯМ', en: 'ROOMS PRICE LIST' }, price: 3000, days: 0 },
+      ],
+    },
+    {
+      id: 'fixextra', label: { ru: 'ДЛЯ СЕРВИС-ЦЕНТРА', en: 'REPAIR EXTRAS' }, only: ['fix'], single: false,
+      options: [
+        { id: 'price', label: { ru: 'ПРАЙС ПО НЕИСПРАВНОСТЯМ', en: 'FAULTS PRICE LIST' }, price: 4000, days: 0 },
+        { id: 'req',   label: { ru: 'ЗАЯВКА НА ДИАГНОСТИКУ', en: 'DIAGNOSTICS REQUEST' }, price: 7000, days: 0 },
+        { id: 'track', label: { ru: 'СТАТУС РЕМОНТА ПО НОМЕРУ', en: 'REPAIR STATUS TRACKER' }, price: 10000, days: 1 },
+      ],
+    },
+    {
+      id: 'finextra', label: { ru: 'ДЛЯ ФИНАНСОВ', en: 'FINANCE EXTRAS' }, only: ['fin'], single: false,
+      options: [
+        { id: 'calc',  label: { ru: 'КАЛЬКУЛЯТОР УСЛУГ', en: 'SERVICES CALCULATOR' }, price: 8000, days: 1 },
+        { id: 'docs',  label: { ru: 'БАЗА ДОКУМЕНТОВ', en: 'DOCUMENTS BASE' }, price: 4000, days: 0 },
+        { id: 'book',  label: { ru: 'ЗАПИСЬ НА КОНСУЛЬТАЦИЮ', en: 'CONSULTATION BOOKING' }, price: 7000, days: 1 },
+      ],
+    },
+    {
+      id: 'kidsextra', label: { ru: 'ДЛЯ ДЕТЦЕНТРА', en: 'KIDS EXTRAS' }, only: ['kids'], single: false,
+      options: [
+        { id: 'sched', label: { ru: 'РАСПИСАНИЕ ГРУПП', en: 'GROUPS SCHEDULE' }, price: 4000, days: 0 },
+        { id: 'book',  label: { ru: 'ОНЛАЙН-ЗАПИСЬ', en: 'ONLINE ENROLLMENT' }, price: 9000, days: 1 },
+        { id: 'docs',  label: { ru: 'ДОКУМЕНТЫ И ЛИЦЕНЗИИ', en: 'DOCS & LICENSES' }, price: 2000, days: 0 },
+      ],
+    },
+    {
+      id: 'rentextra', label: { ru: 'ДЛЯ ПРОКАТА', en: 'RENTAL EXTRAS' }, only: ['rent'], single: false,
+      options: [
+        { id: 'cat',   label: { ru: 'КАТАЛОГ С ЦЕНОЙ ЗА ДЕНЬ', en: 'CATALOG + DAY PRICE' }, price: 8000, days: 0 },
+        { id: 'book',  label: { ru: 'ОНЛАЙН-БРОНИРОВАНИЕ', en: 'ONLINE RESERVATION' }, price: 12000, days: 1 },
+        { id: 'dep',   label: { ru: 'УСЛОВИЯ ЗАЛОГА', en: 'DEPOSIT TERMS' }, price: 2000, days: 0 },
+      ],
+    },
+    {
+      id: 'spaextra', label: { ru: 'ДЛЯ СПА', en: 'SPA EXTRAS' }, only: ['spa'], single: false,
+      options: [
+        { id: 'book',  label: { ru: 'БРОНЬ СЕАНСОВ И ЗАЛОВ', en: 'SESSION & HALL BOOKING' }, price: 10000, days: 1 },
+        { id: 'progs', label: { ru: 'ПРОГРАММЫ С ЦЕНАМИ', en: 'PROGRAMS & PRICES' }, price: 5000, days: 0 },
+        { id: 'reviews',label: { ru: 'ОТЗЫВЫ ГОСТЕЙ', en: 'GUEST REVIEWS' }, price: 3000, days: 0 },
       ],
     },
 
