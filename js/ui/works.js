@@ -54,7 +54,7 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
     const lang = getLang();
     return `
       <div class="work-cover">
-        <canvas aria-hidden="true"></canvas>
+        ${p.cover ? `<img class="work-cover-img" src="${p.cover}" alt="" loading="lazy">` : '<canvas aria-hidden="true"></canvas>'}
         <span class="work-view mono">${t('card_view')}</span>
       </div>
       <div class="work-meta">
@@ -78,9 +78,13 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
     grid.appendChild(art);
 
     const canvas = art.querySelector('canvas');
-    const item = cards.add(canvas, { variant: p.variant, seed: i * 1.7 + 0.3, page: 'works' });
-    item.coverEl = art.querySelector('.work-cover');
-    if (!cards.ok) drawFallbackCover(item, i);
+    // обложки-картинки (демо-сайты) живут без WebGL- item; canvas — фолбэк/шейдер
+    let item = null;
+    if (canvas) {
+      item = cards.add(canvas, { variant: p.variant || 0, seed: i * 1.7 + 0.3, page: 'works' });
+      item.coverEl = art.querySelector('.work-cover');
+      if (!cards.ok) drawFallbackCover(item, i);
+    }
     cardItems.push({ item, el: art, p });
   });
 
@@ -126,19 +130,32 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
   previewWrap.className = 'works-preview';
   previewWrap.setAttribute('aria-hidden', 'true');
   const previewCanvas = document.createElement('canvas');
+  const previewImg = document.createElement('img');
+  previewImg.className = 'works-preview-img';
+  previewImg.alt = '';
+  previewImg.hidden = true;
   previewWrap.appendChild(previewCanvas);
-  if (cards.ok) document.body.appendChild(previewWrap);
+  previewWrap.appendChild(previewImg);
+  document.body.appendChild(previewWrap);
   const previewItem = cards.ok
     ? cards.add(previewCanvas, { variant: 0, seed: 0, vp: [640, 400], page: 'works' })
     : null;
 
   function hidePreview() {
     previewWrap.classList.remove('show');
+    previewImg.hidden = true;
     if (previewItem) previewItem.visible = false;
   }
   function showPreview(p, seed) {
-    if (!previewItem || viewMode !== 'list') return;
-    previewItem.variant = p.variant;
+    if (viewMode !== 'list') return;
+    if (p.cover) {
+      previewImg.src = p.cover;
+      previewImg.hidden = false;
+      previewWrap.classList.add('show');
+      return;
+    }
+    if (!previewItem) return;
+    previewItem.variant = p.variant || 0;
     previewItem.seed = seed;
     previewItem.visible = true;
     previewWrap.classList.add('show');
@@ -263,14 +280,15 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
   // hover / tilt-вход / клик / клавиатура
   cardItems.forEach(({ item, el, p }, i) => {
     el.addEventListener('pointerenter', () => {
-      item.hoverT = 1;
+      if (item) item.hoverT = 1;
       showPreview(p, i * 1.7 + 0.3);
     });
     el.addEventListener('pointerleave', () => {
-      item.hoverT = 0; item.mx = 0; item.my = 0;
+      if (item) { item.hoverT = 0; item.mx = 0; item.my = 0; }
       hidePreview();
     });
     el.addEventListener('pointermove', (e) => {
+      if (!item) return;
       const r = el.querySelector('.work-cover').getBoundingClientRect();
       item.mx = ((e.clientX - r.left) / r.width) * 2 - 1;
       item.my = -(((e.clientY - r.top) / r.height) * 2 - 1);
@@ -293,12 +311,12 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => {
         const found = cardItems.find((c) => c.el === en.target);
-        if (found) found.item.visible = en.isIntersecting;
+        if (found && found.item) found.item.visible = en.isIntersecting;
       });
     }, { root: null, rootMargin: '10% 0px' });
     cardItems.forEach(({ el }) => io.observe(el));
   } else {
-    cardItems.forEach(({ item }) => { item.visible = true; });
+    cardItems.forEach(({ item }) => { if (item) item.visible = true; });
   }
 
   // перевод динамических частей
@@ -307,7 +325,7 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
       el.querySelector('.work-tags').innerHTML = p.tags[getLang()].map((x) => `<span>${x}</span>`).join('');
       el.setAttribute('aria-label', t('card_aria', { title: p.title }));
       el.querySelector('.work-view').textContent = t('card_view');
-      if (!cards.ok) drawFallbackCover(cardItems[i].item, i);
+      if (!cards.ok && cardItems[i].item) drawFallbackCover(cardItems[i].item, i);
     });
     refreshFilterLabels();
     refreshTools();

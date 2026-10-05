@@ -1025,3 +1025,31 @@ body.is-ready .hud-arrows { opacity: 1; }
   .line-in, [data-reveal], .btn::before, .btn i { transition-duration: 0.01s !important; transition-delay: 0s !important; }
   .marquee-track { animation: none !important; }
 }
+
+/* ---------- обложки-картинки демо-сайтов ---------- */
+.work-cover-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+}
+.works-preview-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-shot-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+}
+.case-demo {
+  position: absolute; top: 10px; right: 10px; z-index: 3;
+  display: inline-block; padding: 7px 12px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  color: var(--bg0); background: var(--acc);
+  transition: filter 0.25s;
+}
+.case-demo:hover { filter: brightness(0.82); }
+.case-demo[hidden] { display: none !important; }
+.case-thumb img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: top center;
+}
+.case-lb-img {
+  width: min(92vw, 115dvh); aspect-ratio: 16 / 10;
+  object-fit: cover; border: 1px solid var(--line); background: var(--bg1);
+}

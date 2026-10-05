@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ФОРМА — мебельная мастерская</title>
+  <meta name="description" content="Мебельная мастерская ФОРМА: диваны и кресла из массива, конфигуратор ткани и размера, производство за 3 недели.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f3efe8'/%3E%3Crect x='7' y='11' width='18' height='12' rx='3' fill='%23b4552d'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <a class="logo" href="#top">ФОРМА</a>
+  <nav class="site-nav">
+    <a href="#catalog">Каталог</a>
+    <a href="#config">Конфигуратор</a>
+    <a href="#workshop">Мастерская</a>
+    <a href="#contacts">Контакты</a>
+  </nav>
+  <a class="btn btn-solid" href="#config">Собрать свой</a>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="overline">Мебельная мастерская · с 2016 года</p>
+      <h1>Мебель, которую<br>не хочется менять</h1>
+      <p>Диваны и кресла из массива ясеня. Свой пошив, честные ткани, доставка за неделю. Срок службы — лет двадцать, а не сезоны.</p>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="#config">Собрать свой диван</a>
+        <a class="btn btn-ghost" href="#catalog">Смотреть каталог</a>
+      </div>
+    </div>
+    <figure class="hero-img"><img src="img/hero.jpg" alt="Мастерская ФОРМА: арка, постамент и ваза"></figure>
+  </div>
+</section>
+
+<section class="section" id="catalog">
+  <div class="wrap">
+    <p class="overline">Каталог</p>
+    <h2>Базовые модели</h2>
+    <div class="cards">
+      <article class="card">
+        <img src="img/sofa-1.jpg" alt="Диван Лофт в терракотовом велюре">
+        <div class="card-body">
+          <h3>Лофт</h3><p class="dim">2-местный · 190 см · велюр</p>
+          <div class="card-foot"><b>89 000 ₽</b><button class="link" data-goto-config data-model="loft" data-fabric="0">Собрать →</button></div>
+        </div>
+      </article>
+      <article class="card">
+        <img src="img/sofa-2.jpg" alt="Диван Осло в оливковой рогожке">
+        <div class="card-body">
+          <h3>Осло</h3><p class="dim">2-местный · 210 см · рогожка</p>
+          <div class="card-foot"><b>96 000 ₽</b><button class="link" data-goto-config data-model="oslo" data-fabric="1">Собрать →</button></div>
+        </div>
+      </article>
+      <article class="card">
+        <img src="img/sofa-3.jpg" alt="Диван Песок в бежевом шенилле">
+        <div class="card-body">
+          <h3>Песок</h3><p class="dim">3-местный · 230 см · шенилл</p>
+          <div class="card-foot"><b>112 000 ₽</b><button class="link" data-goto-config data-model="pesok" data-fabric="2">Собрать →</button></div>
+        </div>
+      </article>
+      <article class="card">
+        <img src="img/sofa-4.jpg" alt="Диван Графит в тёмной рогожке">
+        <div class="card-body">
+          <h3>Графит</h3><p class="dim">2-местный · 190 см · рогожка</p>
+          <div class="card-foot"><b>93 000 ₽</b><button class="link" data-goto-config data-model="grafit" data-fabric="3">Собрать →</button></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-tint" id="config">
+  <div class="wrap">
+    <p class="overline">Конфигуратор</p>
+    <h2>Соберите свой «Лофт»</h2>
+    <div class="config">
+      <div class="config-visual">
+        <div class="vsofa" id="vsofa">
+          <div class="v-back"></div>
+          <div class="v-cushion"></div>
+          <div class="v-cushion"></div>
+          <div class="v-seat"></div>
+          <div class="v-arm left"></div>
+          <div class="v-arm right"></div>
+          <div class="v-leg"></div>
+          <div class="v-leg"></div>
+        </div>
+        <p class="config-price">Итог: <b id="priceOut">89 000 ₽</b><span class="dim" id="priceNote"> · 2–3 недели пошив</span></p>
+      </div>
+      <div class="config-controls">
+        <h4>Размер</h4>
+        <div class="chips" id="sizeChips">
+          <button class="chip" data-k="0.72" aria-pressed="false">1-местный</button>
+          <button class="chip on" data-k="1" aria-pressed="true">2-местный</button>
+          <button class="chip" data-k="1.3" aria-pressed="false">3-местный</button>
+        </div>
+        <h4>Ткань</h4>
+        <div class="swatches" id="fabSwatches">
+          <button class="swatch on" data-f="0" aria-label="Велюр терракота" aria-pressed="true"><i style="--c:#ba5e34"></i>Велюр терракота</button>
+          <button class="swatch" data-f="1" aria-label="Рогожка олива" aria-pressed="false"><i style="--c:#808468"></i>Рогожка олива</button>
+          <button class="swatch" data-f="2" aria-label="Шенилл песок" aria-pressed="false"><i style="--c:#cab696"></i>Шенилл песок</button>
+          <button class="swatch" data-f="3" aria-label="Рогожка графит" aria-pressed="false"><i style="--c:#5c5a58"></i>Рогожка графит</button>
+          <button class="swatch" data-f="4" aria-label="Велюр молочный" aria-pressed="false"><i style="--c:#e6ddd0"></i>Велюр молочный <em>+2 500 ₽</em></button>
+        </div>
+        <button class="btn btn-solid" id="orderBtn">Заказать этот вариант</button>
+      </div>
+    </div>
+
+    <form class="form order-form" id="orderForm" hidden novalidate>
+      <div class="form-row">
+        <label>Имя<input type="text" name="name" placeholder="Ваше имя" required></label>
+        <label>Телефон<input type="tel" name="phone" placeholder="+7 ___ ___-__-__" required></label>
+      </div>
+      <button class="btn btn-solid" type="submit">Отправить заказ</button>
+      <p class="form-hint">Менеджер перезвонит, уточнит детали и пришлёт договор.</p>
+    </form>
+    <div class="form-done" id="orderDone" hidden>
+      <h3>Заказ принят ✓</h3>
+      <p id="orderDoneText"></p>
+      <p class="form-hint">Это демо: заказ никуда не отправляется.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="workshop">
+  <div class="wrap grid-2">
+    <div>
+      <p class="overline">Мастерская</p>
+      <h2>От эскиза до доставки — три недели</h2>
+      <ol class="steps">
+        <li><b>01 · Замер и эскиз</b><span>Приезжаем с образцами тканей или работаем по фото.</span></li>
+        <li><b>02 · Каркас</b><span>Массив ясеня и берёзовая фанера, без ДСП.</span></li>
+        <li><b>03 · Пошив</b><span>Свой раскройный цех, чехлы съёмные.</span></li>
+        <li><b>04 · Доставка</b><span>Подъём и сборка включены, упаковку забираем.</span></li>
+      </ol>
+    </div>
+    <figure><img src="img/workshop.jpg" alt="Доски в раскройном цехе"></figure>
+  </div>
+</section>
+
+<footer class="site-footer" id="contacts">
+  <div class="wrap grid-3">
+    <div>
+      <p class="foot-logo">ФОРМА</p>
+      <p>Шоурум: наб. Обводного канала, 74<br>Пн–сб · 11:00–20:00</p>
+    </div>
+    <div>
+      <h4>Связь</h4>
+      <p><a href="tel:+78122407719">+7 (812) 240-77-19</a><br>
+      <a href="mailto:hi@forma-mebel.ru">hi@forma-mebel.ru</a></p>
+    </div>
+    <div>
+      <h4>Гарантия</h4>
+      <p>3 года на каркас,<br>1 год на обивку</p>
+    </div>
+  </div>
+  <div class="wrap demo-credit">
+    <p>Демо-сайт для портфолио. Дизайн и разработка — <a href="../../">AZOTH</a>. Форма заказа не отправляет данные.</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

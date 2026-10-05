@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ПУЛЬС — сеть фитнес-клубов</title>
+  <meta name="description" content="Фитнес-клубы ПУЛЬС: силовой блок, кардио, единоборства. Три клуба в городе, расписание на неделю, первая тренировка бесплатно.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0b'/%3E%3Cpath d='M4 16h6l3-8 5 16 3-8h7' fill='none' stroke='%23c8f542' stroke-width='2.4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <a class="logo" href="#top">ПУЛЬС<span>.</span></a>
+  <nav class="site-nav">
+    <a href="#directions">Направления</a>
+    <a href="#schedule">Расписание</a>
+    <a href="#coaches">Тренеры</a>
+    <a href="#prices">Тарифы</a>
+  </nav>
+  <a class="btn btn-solid" href="#trial">Пробная</a>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="overline">3 клуба · 40 тренеров · с 2015 года</p>
+    <h1>ТРЕНИРУЙСЯ<br>ГРОМЧЕ</h1>
+    <p class="hero-sub">Залы под каждое направление, а не один зал на всё.<br>Первая тренировка — бесплатно.</p>
+    <div class="hero-actions">
+      <a class="btn btn-solid" href="#trial">Записаться на пробную</a>
+      <a class="btn btn-ghost" href="#schedule">Расписание</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="directions">
+  <div class="wrap">
+    <p class="overline">Направления</p>
+    <h2>Три зала — три режима</h2>
+    <div class="cards">
+      <article class="card">
+        <img src="img/dir-1.jpg" alt="Силовой блок">
+        <div class="card-body">
+          <h3>Силовой блок</h3>
+          <p>Свободные веса, платформы, рамы. Группы по 8 человек и персональные программы.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="img/dir-2.jpg" alt="Кардио и выносливость">
+        <div class="card-body">
+          <h3>Кардио и функционалка</h3>
+          <p>Интервальные тренировки на 45 минут: гребля, санки, бюг. Пульс на экране зала.</p>
+        </div>
+      </article>
+      <article class="card">
+        <img src="img/dir-3.jpg" alt="Единоборства">
+        <div class="card-body">
+          <h3>Единоборства</h3>
+          <p>Бокс и борьба: ринг, татами, снаряды. От новичков до соревновательной группы.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark" id="schedule">
+  <div class="wrap">
+    <p class="overline">Расписание</p>
+    <h2>Неделя в «Пульсе»</h2>
+    <div class="tabs" role="tablist" aria-label="Дни недели">
+      <button class="tab on" role="tab" aria-selected="true" data-day="mon">ПН</button>
+      <button class="tab" role="tab" aria-selected="false" data-day="wed">СР</button>
+      <button class="tab" role="tab" aria-selected="false" data-day="fri">ПТ</button>
+      <button class="tab" role="tab" aria-selected="false" data-day="sat">СБ</button>
+    </div>
+    <div class="sched on" id="day-mon">
+      <div class="slot"><b>07:30</b><div><h3>Силовой блок · база</h3><span>Зал 1 · Макс Орлов</span></div><i>45 мин</i></div>
+      <div class="slot"><b>12:00</b><div><h3>Кардио · интервалы</h3><span>Зал 2 · Дина Соколова</span></div><i>45 мин</i></div>
+      <div class="slot"><b>18:30</b><div><h3>Бокс · техника</h3><span>Зал 3 · Артур Гейм</span></div><i>60 мин</i></div>
+      <div class="slot"><b>20:00</b><div><h3>Силовой блок · становая</h3><span>Зал 1 · Макс Орлов</span></div><i>60 мин</i></div>
+    </div>
+    <div class="sched" id="day-wed" hidden>
+      <div class="slot"><b>07:30</b><div><h3>Кардио · гребля</h3><span>Зал 2 · Дина Соколова</span></div><i>45 мин</i></div>
+      <div class="slot"><b>17:00</b><div><h3>Функционалка · санки</h3><span>Зал 2 · Тимур Бек</span></div><i>45 мин</i></div>
+      <div class="slot"><b>19:00</b><div><h3>Борьба · партер</h3><span>Зал 3 · Артур Гейм</span></div><i>60 мин</i></div>
+    </div>
+    <div class="sched" id="day-fri" hidden>
+      <div class="slot"><b>07:30</b><div><h3>Силовой блок · жим</h3><span>Зал 1 · Макс Орлов</span></div><i>45 мин</i></div>
+      <div class="slot"><b>18:30</b><div><h3>Бокс · спарринги</h3><span>Зал 3 · Артур Гейм</span></div><i>60 мин</i></div>
+      <div class="slot"><b>20:00</b><div><h3>Кардио · финишер недели</h3><span>Зал 2 · Дина Соколова</span></div><i>30 мин</i></div>
+    </div>
+    <div class="sched" id="day-sat" hidden>
+      <div class="slot"><b>10:00</b><div><h3>Открытый ковёр · борьба</h3><span>Зал 3 · все тренеры</span></div><i>90 мин</i></div>
+      <div class="slot"><b>12:00</b><div><h3>Силовой блок · новичкам</h3><span>Зал 1 · Тимур Бек</span></div><i>45 мин</i></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="coaches">
+  <div class="wrap">
+    <p class="overline">Тренеры</p>
+    <h2>Кто вас поведёт</h2>
+    <div class="cards three">
+      <article class="card">
+        <img src="img/coach-1.jpg" alt="Макс Орлов">
+        <div class="card-body"><h3>Макс Орлов</h3><p class="dim">Силовой блок · 12 лет опыта · КМС по пауэрлифтингу</p></div>
+      </article>
+      <article class="card">
+        <img src="img/coach-2.jpg" alt="Дина Соколова">
+        <div class="card-body"><h3>Дина Соколова</h3><p class="dim">Кардио · 8 лет опыта · тренер сборной по гребле</p></div>
+      </article>
+      <article class="card">
+        <img src="img/coach-3.jpg" alt="Артур Гейм">
+        <div class="card-body"><h3>Артур Гейм</h3><p class="dim">Единоборства · 15 лет опыта · МС по боксу</p></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark" id="prices">
+  <div class="wrap">
+    <p class="overline">Тарифы</p>
+    <h2>Без звёздочек и доплат</h2>
+    <div class="plans">
+      <article class="plan">
+        <h3>Месяц</h3>
+        <p class="plan-price">3 900 ₽<span>/ мес</span></p>
+        <ul><li>Один зал на выбор</li><li>Групповые тренировки</li><li>Заморозка 7 дней</li></ul>
+        <a class="btn btn-ghost" href="#trial">Выбрать</a>
+      </article>
+      <article class="plan hit">
+        <p class="plan-badge">Выгоднее</p>
+        <h3>Квартал</h3>
+        <p class="plan-price">9 900 ₽<span>/ 3 мес</span></p>
+        <ul><li>Все три клуба</li><li>Групповые + кардиозона</li><li>Заморозка 21 день</li><li>Программа от тренера</li></ul>
+        <a class="btn btn-solid" href="#trial">Выбрать</a>
+      </article>
+      <article class="plan">
+        <h3>Год</h3>
+        <p class="plan-price">29 900 ₽<span>/ год</span></p>
+        <ul><li>Все три клуба</li><li>Персональные 4 сессии</li><li>Массаж раз в месяц</li></ul>
+        <a class="btn btn-ghost" href="#trial">Выбрать</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="trial">
+  <div class="wrap narrow">
+    <p class="overline">Пробная тренировка</p>
+    <h2>Первая — за нами</h2>
+    <form id="trialForm" class="form" novalidate>
+      <div class="form-row">
+        <label>Имя<input type="text" name="name" placeholder="Ваше имя" required></label>
+        <label>Телефон<input type="tel" name="phone" placeholder="+7 ___ ___-__-__" required></label>
+      </div>
+      <div class="form-row">
+        <label>Направление
+          <select name="dir">
+            <option>Силовой блок</option><option>Кардио и функционалка</option><option>Единоборства</option>
+          </select>
+        </label>
+        <label>Клуб
+          <select name="club">
+            <option>«Пульс» Центр</option><option>«Пульс» Запад</option><option>«Пульс» Восток</option>
+          </select>
+        </label>
+      </div>
+      <button class="btn btn-solid wide" type="submit">Записаться бесплатно</button>
+      <p class="form-hint">Перезвоним в течение часа и подберём время.</p>
+    </form>
+    <div class="form-done" id="trialDone" hidden>
+      <h3>Записались ✓</h3>
+      <p id="trialDoneText"></p>
+      <p class="form-hint">Это демо: заявка никуда не отправляется.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap grid-3">
+    <div>
+      <p class="foot-logo">ПУЛЬС<span>.</span></p>
+      <p>Центр · Запад · Восток<br>ежедневно 07:00–23:00</p>
+    </div>
+    <div>
+      <h4>Связь</h4>
+      <p><a href="tel:+74990332418">+7 (499) 033-24-18</a><br>
+      <a href="mailto:go@pulse-fit.ru">go@pulse-fit.ru</a></p>
+    </div>
+    <div>
+      <h4>Клубы</h4>
+      <p>ул. Наличная, 5<br>пр. Богатырский, 18<br>ш. Энтузиастов, 31</p>
+    </div>
+  </div>
+  <div class="wrap demo-credit">
+    <p>Демо-сайт для портфолио. Дизайн и разработка — <a href="../../">AZOTH</a>. Форма записи не отправляет данные.</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

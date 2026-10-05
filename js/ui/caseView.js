@@ -17,13 +17,16 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
   const modal = document.getElementById('caseModal');
   if (!modal) return null;
   const panel = modal.querySelector('.case-panel');
+  const caseShotImg = document.getElementById('caseShot');
+  const demoBtn = document.getElementById('caseDemo');
   const caseItem = cards.ok
     ? cards.add(document.getElementById('caseCanvas'), { variant: 0, seed: 0, vp: [1024, 640] })
     : null;
 
-  // ---------- лайтбокс: увеличенный живой кадр ----------
+  // ---------- лайтбокс: увеличенный кадр (скриншот или живой шейдер) ----------
   const lightbox = document.getElementById('caseLightbox');
   const lbCanvas = document.getElementById('lbCanvas');
+  const lbShotImg = document.getElementById('lbShot');
   const lbCount = document.getElementById('lbCount');
   const zoomBtn = document.getElementById('caseZoom');
   const lbItem = cards.ok && lightbox
@@ -34,11 +37,22 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
   if (zoomBtn && !cards.ok) zoomBtn.hidden = true;
 
   function openLb() {
-    if (!lightbox || !lbItem || lbOpen) return;
+    if (!lightbox || lbOpen) return;
     const s = currentShot();
-    lbItem.variant = s.variant;
-    lbItem.seed = s.seed;
-    lbItem.visible = true;
+    const isImg = typeof s === 'string';
+    if (isImg) {
+      if (!lbShotImg) return;
+      lbShotImg.src = s;
+      lbShotImg.hidden = false;
+      lbCanvas.hidden = true;
+    } else {
+      if (!lbItem) return;
+      lbItem.variant = s.variant;
+      lbItem.seed = s.seed;
+      lbItem.visible = true;
+      if (lbShotImg) lbShotImg.hidden = true;
+      if (lbCanvas) lbCanvas.hidden = false;
+    }
     lbOpen = true;
     lbReturnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     lightbox.classList.add('open');
@@ -75,7 +89,7 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
     }
   });
   lightbox?.addEventListener('click', (e) => {
-    if (e.target === lightbox || e.target === lbCanvas) closeLb();
+    if (e.target === lightbox || e.target === lbCanvas || e.target === lbShotImg) closeLb();
   });
   document.getElementById('lbClose')?.addEventListener('click', closeLb);
   document.getElementById('lbPrev')?.addEventListener('click', () => lbNav(-1));
@@ -91,13 +105,14 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
       b.className = 'case-thumb';
       b.dataset.cursor = 'link';
       b.setAttribute('aria-label', t('case_shot_aria', { n: j + 1 }));
-      b.appendChild(document.createElement('canvas'));
+      const cv = document.createElement('canvas');
+      b.appendChild(cv);
       b.addEventListener('click', () => setShot(j));
       thumbsWrap.appendChild(b);
       const tItem = cards.ok
-        ? cards.add(b.querySelector('canvas'), { variant: 0, seed: j, vp: [512, 320], page: null })
+        ? cards.add(cv, { variant: 0, seed: j, vp: [512, 320], page: null })
         : null;
-      thumbItems.push({ btn: b, item: tItem });
+      thumbItems.push({ btn: b, canvas: cv, item: tItem });
     }
   }
 
@@ -121,18 +136,27 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
     const shots = currentShots();
     shotIdx = Math.max(0, Math.min(shots.length - 1, j));
     const s = shots[shotIdx];
+    const isImg = typeof s === 'string';
+    // скриншот демо-сайта
+    if (caseShotImg) {
+      caseShotImg.hidden = !isImg;
+      if (isImg) caseShotImg.src = s;
+    }
     if (caseItem) {
-      caseItem.variant = s.variant;
-      caseItem.seed = s.seed;
-      caseItem.visible = true;
-      if (animate) {
-        caseItem.load = 0;
-        gsap.to(caseItem, { load: 1, duration: 1.0, ease: 'power2.out', delay: 0.12 });
-      } else {
-        caseItem.load = 1;
+      caseItem.visible = !isImg;
+      if (!isImg) {
+        caseItem.variant = s.variant;
+        caseItem.seed = s.seed;
+        if (animate) {
+          caseItem.load = 0;
+          gsap.to(caseItem, { load: 1, duration: 1.0, ease: 'power2.out', delay: 0.12 });
+        } else {
+          caseItem.load = 1;
+        }
       }
     }
-    if (lbItem) {
+    if (lbOpen && isImg && lbShotImg) lbShotImg.src = s;
+    if (lbItem && !isImg) {
       lbItem.variant = s.variant;
       lbItem.seed = s.seed;
     }
@@ -142,13 +166,28 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
 
   function renderThumbs() {
     const shots = currentShots();
+    const isImgs = typeof shots[0] === 'string';
     thumbItems.forEach((th, j) => {
       const has = j < shots.length;
       th.btn.hidden = !has;
-      if (has && th.item) {
-        th.item.variant = shots[j].variant;
-        th.item.seed = shots[j].seed;
-        cards.renderStatic(th.item);
+      let img = th.btn.querySelector('img');
+      if (has && isImgs) {
+        if (!img) {
+          img = document.createElement('img');
+          img.alt = '';
+          img.loading = 'lazy';
+          th.btn.appendChild(img);
+        }
+        img.src = shots[j];
+        th.canvas.hidden = true;
+      } else {
+        if (img) img.remove();
+        th.canvas.hidden = false;
+        if (has && th.item) {
+          th.item.variant = shots[j].variant;
+          th.item.seed = shots[j].seed;
+          cards.renderStatic(th.item);
+        }
       }
     });
   }
@@ -187,6 +226,17 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
       .join('');
     document.getElementById('caseCount').textContent =
       `${String(i + 1).padStart(2, '0')} / ${String(PROJECTS.length).padStart(2, '0')}`;
+    // кнопка на живое демо + лупа (для скриншотов не нужен WebGL)
+    if (demoBtn) {
+      demoBtn.hidden = !p.demo;
+      if (p.demo) {
+        demoBtn.href = p.demo;
+        demoBtn.textContent = t('case_demo');
+      }
+    }
+    if (zoomBtn) {
+      zoomBtn.hidden = typeof (p.shots && p.shots[0]) === 'string' ? false : !cards.ok;
+    }
     modal.setAttribute('aria-label', t('card_aria', { title: p.title }));
   }
 

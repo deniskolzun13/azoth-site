@@ -169,13 +169,13 @@
             <h2 class="works-title glitchable" data-para="0.5">
               <span class="line"><span class="line-in" style="--i:0" data-i18n-html="works_title_html">РА<span class="outline">БО</span>ТЫ</span></span>
             </h2>
-            <p class="works-note mono" id="worksNote" data-reveal style="--i:1">9 ПРОЕКТОВ · 2024—2026 · КОНЦЕПТ-ПРОЕКТЫ</p>
+            <p class="works-note mono" id="worksNote" data-reveal style="--i:1">5 ПРОЕКТОВ · 2024—2026 · РАБОЧИЕ ДЕМО</p>
             <div class="works-filters mono" id="worksFilters" data-reveal style="--i:2" aria-label="Фильтр проектов"></div>
             <div class="works-tools mono" id="worksTools" aria-label="Вид и сортировка"></div>
           </header>
           <div class="works-grid" id="worksGrid"><!-- карточки из js/data/projects.js --></div>
           <footer class="works-foot mono" data-reveal>
-            <span data-i18n="works_foot_note">ВСЕ ОБЛОЖКИ — ПРОЦЕДУРНЫЕ ШЕЙДЕРЫ, БЕЗ КАРТИНОК</span>
+            <span data-i18n="works_foot_note">КАЖДЫЙ ПРОЕКТ — ЖИВОЙ ДЕМО-САЙТ: ОТКРЫВАЙ И ЛИСТАЙ</span>
             <button class="link-arrow" data-go="4" data-cursor="link" data-i18n="works_foot_cta">ХОЧУ ТАК ЖЕ →</button>
           </footer>
         </div>
@@ -365,7 +365,7 @@
     <div class="case-backdrop" data-close></div>
     <article class="case-panel" role="dialog" aria-modal="true">
       <button class="case-close mono" data-close data-cursor="link" data-i18n="case_close">ЗАКРЫТЬ ✕</button>
-      <div class="case-canvas-wrap"><canvas id="caseCanvas"></canvas><span class="case-tag mono" data-i18n="case_tag">ДЕМО-КОНЦЕПТ</span><button class="case-zoom mono" id="caseZoom" data-cursor="link" data-i18n="case_zoom" data-i18n-title="case_zoom_title" title="Открыть кадр на весь экран">⤢ НА ВЕСЬ ЭКРАН</button></div>
+      <div class="case-canvas-wrap"><canvas id="caseCanvas"></canvas><img id="caseShot" class="case-shot-img" alt="" hidden><span class="case-tag mono" data-i18n="case_tag">РАБОЧЕЕ ДЕМО</span><a class="case-demo mono" id="caseDemo" href="#" target="_blank" rel="noopener" hidden data-cursor="link">↗ ОТКРЫТЬ САЙТ</a><button class="case-zoom mono" id="caseZoom" data-cursor="link" data-i18n="case_zoom" data-i18n-title="case_zoom_title" title="Открыть кадр на весь экран">⤢ НА ВЕСЬ ЭКРАН</button></div>
       <div class="case-info">
         <p class="mono" id="caseMeta">01 · 2026</p>
         <h3 id="caseTitle">ПРОЕКТ</h3>
@@ -388,7 +388,7 @@
         <div class="case-thumbs mono" id="caseThumbs" aria-label="Кадры проекта"></div>
         <div class="case-navrow">
           <button class="btn btn-ghost" id="casePrev" data-cursor="link" data-i18n="case_prev">← ПРЕД</button>
-          <span class="mono" id="caseCount">01 / 09</span>
+          <span class="mono" id="caseCount">01 / 05</span>
           <button class="btn btn-ghost" id="caseNext" data-cursor="link" data-i18n="case_next">СЛЕД →</button>
           <button class="btn btn-ghost" id="caseShare" data-cursor="link" title="Скопировать ссылку на этот кейс" data-i18n="case_share" data-i18n-title="case_share_title">⧉ ССЫЛКА</button>
         </div>
@@ -405,6 +405,7 @@
   <div id="caseLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Кадр проекта">
     <button class="case-lb-close mono" id="lbClose" data-cursor="link" data-i18n="case_close">ЗАКРЫТЬ ✕</button>
     <canvas id="lbCanvas" aria-hidden="true"></canvas>
+    <img id="lbShot" class="case-lb-img" alt="" hidden>
     <div class="case-lb-nav mono">
       <button class="btn btn-ghost" id="lbPrev" data-cursor="link" data-i18n="case_prev">← ПРЕД</button>
       <span id="lbCount">1 / 6</span>

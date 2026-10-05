@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>СОЛЬ — ресторан авторской кухни</title>
+  <meta name="description" content="Ресторан авторской кухни СОЛЬ: дегустационные сеты, каминный зал, бронирование столика онлайн.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23171210'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23c9973f' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <a class="logo" href="#top">СОЛЬ<span>·</span></a>
+  <nav class="site-nav">
+    <a href="#about">О ресторане</a>
+    <a href="#menu">Меню</a>
+    <a href="#gallery">Галерея</a>
+    <a href="#chef">Шеф</a>
+    <a href="#contacts">Контакты</a>
+  </nav>
+  <a class="btn btn-solid" href="#booking">Забронировать</a>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="overline">Ресторан авторской кухни · с 2019 года</p>
+    <h1>СОЛЬ</h1>
+    <p class="hero-sub">Семь подач, один стол, вкус без лишних слов.<br>Ужин, который хочется растянуть до полуночи.</p>
+    <div class="hero-actions">
+      <a class="btn btn-solid" href="#booking">Забронировать столик</a>
+      <a class="btn btn-ghost" href="#menu">Смотреть меню</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap grid-2">
+    <div>
+      <p class="overline">О ресторане</p>
+      <h2>Кухня открытого огня<br>и каминный зал на сорок мест</h2>
+      <p>«СОЛЬ» — ресторан на двенадцать столиков в старом доме у набережной. Мы готовим на живом огне и угле, покупаем рыбу у прибрежных бригад, а овощи — у двух хозяйств под городом.</p>
+      <p>Меню меняется четыре раза в год: вслед за сезоном, а не за модой. Винная карта — 80 позиций, из них треть — от малых хозяйств.</p>
+    </div>
+    <figure><img src="img/about.jpg" alt="Зал ресторана при вечернем свете"></figure>
+  </div>
+</section>
+
+<section class="section section-dark" id="menu">
+  <div class="wrap">
+    <p class="overline">Меню</p>
+    <h2>Сет и основное</h2>
+    <div class="tabs" role="tablist" aria-label="Разделы меню">
+      <button class="tab on" role="tab" aria-selected="true" data-tab="sets">Дегустация</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="main">Основное</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="bar">Бар</button>
+    </div>
+
+    <div class="menu-panel on" id="menu-sets" role="tabpanel">
+      <div class="dish"><div><h3>Сет «Соль»</h3><p>7 подач от шефа: устрица с огуречной водой, судак, утка, десерт из чёрного кунжута</p></div><b>4 500 ₽<i>/ гость</i></b></div>
+      <div class="dish"><div><h3>Вегетарианский сет</h3><p>5 подач: томлёная свёкла, ризотто с белыми грибами, груша в вине</p></div><b>3 200 ₽<i>/ гость</i></b></div>
+      <div class="dish"><div><h3>Винная пара к сету</h3><p>4 бокала, подобранных сомелье к подачам</p></div><b>2 400 ₽<i>/ гость</i></b></div>
+    </div>
+
+    <div class="menu-panel" id="menu-main" role="tabpanel" hidden>
+      <div class="dish"><div><h3>Судак с топинамбуром</h3><p>топинамбур, сливочное масло, укропное масло</p></div><b>1 150 ₽</b></div>
+      <div class="dish"><div><h3>Утиная грудка с айвой</h3><p>айва, пюре из сельдерея, соус из красного вина</p></div><b>1 450 ₽</b></div>
+      <div class="dish"><div><h3>Тартар из говядины</h3><p>желток конфи, каперсы, картофельные чипсы</p></div><b>980 ₽</b></div>
+      <div class="dish"><div><h3>Ризотто с белыми грибами</h3><p>карнароли, белые грибы, пармезан 24 месяца</p></div><b>890 ₽</b></div>
+    </div>
+
+    <div class="menu-panel" id="menu-bar" role="tabpanel" hidden>
+      <div class="dish"><div><h3>Коктейль «Дым»</h3><p>мескаль, вермут, розмарин, апельсиновая цедра</p></div><b>690 ₽</b></div>
+      <div class="dish"><div><h3>Коктейль «Соль»</h3><p>джин, сухой вермут, лимон, соль Мальдон</p></div><b>620 ₽</b></div>
+      <div class="dish"><div><h3>Морс облепиха — перец</h3><p>домашний, без сахара</p></div><b>350 ₽</b></div>
+      <div class="dish"><div><h3>Кофе на углях</h3><p>эспрессо / фильтр, обжарка местной ростерии</p></div><b>250 ₽</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="gallery">
+  <div class="wrap">
+    <p class="overline">Галерея</p>
+    <h2>Вечер в «СОЛИ»</h2>
+    <div class="gallery">
+      <figure><img src="img/g1.jpg" alt="Подача от шефа"><figcaption>Сет, подача №1</figcaption></figure>
+      <figure><img src="img/g2.jpg" alt="Тарелка основного блюда"><figcaption>Утка с айвой</figcaption></figure>
+      <figure><img src="img/g3.jpg" alt="Дегустационная подача"><figcaption>Судак с топинамбуром</figcaption></figure>
+      <figure><img src="img/g4.jpg" alt="Десертная подача"><figcaption>Десерт из кунжута</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark" id="chef">
+  <div class="wrap grid-2">
+    <figure><img src="img/chef.jpg" alt="Шеф-повар ресторана"></figure>
+    <div>
+      <p class="overline">Шеф</p>
+      <h2>«Соль — это про честный вкус»</h2>
+      <p class="quote">— Марат Ильин, шеф-повар и сооснователь. Пятнадцать лет на кухне: от городской пекарни до ресторана с мишленовской рекомендацией. В «СОЛИ» отвечает за сет и открытую кухню, куда можно заглянуть из зала.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="booking">
+  <div class="wrap narrow">
+    <p class="overline">Бронирование</p>
+    <h2>Столик на вечер</h2>
+    <form id="bookForm" class="form" novalidate>
+      <div class="form-row">
+        <label>Имя<input type="text" name="name" placeholder="Как вас представить" required></label>
+        <label>Телефон<input type="tel" name="phone" placeholder="+7 ___ ___-__-__" required></label>
+      </div>
+      <div class="form-row three">
+        <label>Дата<input type="date" name="date" required></label>
+        <label>Время
+          <select name="time">
+            <option>12:00</option><option>14:00</option><option>16:00</option>
+            <option selected>18:00</option><option>19:00</option><option>20:00</option><option>21:00</option>
+          </select>
+        </label>
+        <label>Гости
+          <select name="guests">
+            <option>1</option><option selected>2</option><option>3</option>
+            <option>4</option><option>5</option><option>6+</option>
+          </select>
+        </label>
+      </div>
+      <button class="btn btn-solid wide" type="submit">Забронировать</button>
+      <p class="form-hint">Забронировать столик можно не позднее чем за 2 часа до визита.</p>
+    </form>
+    <div class="form-done" id="bookDone" hidden>
+      <h3>Столик забронирован ✓</h3>
+      <p id="bookDoneText"></p>
+      <p class="form-hint">Мы перезвоним за час, чтобы подтвердить бронь.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer" id="contacts">
+  <div class="wrap grid-3">
+    <div>
+      <p class="foot-logo">СОЛЬ<span>·</span></p>
+      <p>ул. Якорная, 12<br>Санкт-Петербург</p>
+    </div>
+    <div>
+      <h4>Часы</h4>
+      <p>вт–вс · 12:00–24:00<br>пн — выходной</p>
+    </div>
+    <div>
+      <h4>Связь</h4>
+      <p><a href="tel:+74951204567">+7 (495) 120-45-67</a><br>
+      <a href="mailto:hello@salt-rest.ru">hello@salt-rest.ru</a></p>
+    </div>
+  </div>
+  <div class="wrap demo-credit">
+    <p>Демо-сайт для портфолио. Дизайн и разработка — <a href="../../">AZOTH</a>. Форма брони не отправляет данные.</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

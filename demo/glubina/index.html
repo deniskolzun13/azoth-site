@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ГЛУБИНА — иммерсивная выставка об океане</title>
+  <meta name="description" content="Иммерсивная выставка ГЛУБИНА: три зала о световой толще океана — от лучей на поверхности до биолюминесценции бездны. Билеты онлайн.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2304121f'/%3E%3Cpath d='M4 20c4-2 8-2 12 0s8 2 12 0' fill='none' stroke='%2357c1e8' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <a class="logo" href="#top">ГЛУБИНА</a>
+  <nav class="site-nav">
+    <a href="#about">О выставке</a>
+    <a href="#halls">Залы</a>
+    <a href="#tickets">Билеты</a>
+    <a href="#info">Инфо</a>
+  </nav>
+  <a class="btn btn-solid" href="#tickets">Купить билет</a>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <p class="overline">Иммерсивная выставка · 12 июня — 30 сентября</p>
+    <h1>ГЛУБИНА</h1>
+    <p class="hero-sub">Сорок минут пути от поверхности до дна.<br>Три зала, свет, звук и ни одного аквариума.</p>
+    <div class="hero-actions">
+      <a class="btn btn-solid" href="#tickets">Выбрать сеанс</a>
+      <a class="btn btn-ghost" href="#halls">Что внутри</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap">
+    <p class="overline">О выставке</p>
+    <h2>Океан, в который можно войти</h2>
+    <div class="about-grid">
+      <p>«ГЛУБИНА» — маршрутизированная выставка о световой толще океана. Вы спускаетесь от поверхности, где живут лучи, к срединной воде и дальше — к бездне, где свет придумывают сами существа.</p>
+      <p>Проекции на всю стену, звук в 32 канала, температура залов тоже падает с глубиной. Маршрут занимает около сорока минут, гид не нужен — просто идите вниз.</p>
+    </div>
+    <div class="stats">
+      <div><b>3</b><span>зала-слоя</span></div>
+      <div><b>40</b><span>минут маршрута</span></div>
+      <div><b>6+</b><span>возраст гостей</span></div>
+      <div><b>0</b><span>экранов телефонов внутри</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-deep" id="halls">
+  <div class="wrap">
+    <p class="overline">Залы</p>
+    <h2>Три слоя воды</h2>
+    <div class="halls">
+      <article class="hall">
+        <img src="img/hall-1.jpg" alt="Зал «Свет»: лучи сквозь воду" loading="lazy">
+        <div class="hall-body">
+          <span class="hall-depth">0 — 40 м</span>
+          <h3>Свет</h3>
+          <p>Лучи на поверхности, рябь на стенах, звук волн с высоты птичьего полёта. Самый светлый зал.</p>
+        </div>
+      </article>
+      <article class="hall">
+        <img src="img/hall-2.jpg" alt="Зал «Живая вода»: биолюминесценция" loading="lazy">
+        <div class="hall-body">
+          <span class="hall-depth">40 — 200 м</span>
+          <h3>Живая вода</h3>
+          <p>Сумеречная зона: медузы, светлячки планктона и звук, похожий на дождь. Свет только живой.</p>
+        </div>
+      </article>
+      <article class="hall">
+        <img src="img/hall-3.jpg" alt="Зал «Мрак»: медуза в темноте" loading="lazy">
+        <div class="hall-body">
+          <span class="hall-depth">ниже 200 м</span>
+          <h3>Мрак</h3>
+          <p>Финал маршрута: абсолютная темнота, одна медуза и собственное дыхание. Здесь фотографируют меньше всего.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="tickets">
+  <div class="wrap">
+    <p class="overline">Билеты</p>
+    <h2>Выберите сеанс</h2>
+    <div class="ticketing">
+      <div class="pick">
+        <h4>Дата</h4>
+        <div class="chips" id="dateChips">
+          <button class="chip on" data-date="12 июня" aria-pressed="true">12 июня</button>
+          <button class="chip" data-date="13 июня" aria-pressed="false">13 июня</button>
+          <button class="chip" data-date="14 июня" aria-pressed="false">14 июня</button>
+          <button class="chip" data-date="15 июня" aria-pressed="false">15 июня</button>
+          <button class="chip" data-date="16 июня" aria-pressed="false">16 июня</button>
+        </div>
+        <h4>Время</h4>
+        <div class="chips" id="timeChips">
+          <button class="chip on" data-time="11:00" aria-pressed="true">11:00</button>
+          <button class="chip" data-time="13:00" aria-pressed="false">13:00</button>
+          <button class="chip" data-time="17:00" aria-pressed="false">17:00</button>
+          <button class="chip" data-time="19:00" aria-pressed="false">19:00</button>
+        </div>
+        <h4>Тип билета</h4>
+        <div class="chips" id="typeChips">
+          <button class="chip on" data-price="900" aria-pressed="true">Взрослый · 900 ₽</button>
+          <button class="chip" data-price="600" aria-pressed="false">Льготный · 600 ₽</button>
+          <button class="chip" data-price="0" aria-pressed="false">До 6 лет · бесплатно</button>
+        </div>
+      </div>
+      <aside class="summary">
+        <h4>Ваш сеанс</h4>
+        <p class="sum-date" id="sumDate">12 июня · 11:00</p>
+        <p class="sum-type" id="sumType">Взрослый билет</p>
+        <p class="sum-price" id="sumPrice">900 ₽</p>
+        <button class="btn btn-solid wide" id="buyBtn">Купить билет</button>
+        <p class="sum-hint">Электронный билет придёт на почту. Возврат — за 24 часа.</p>
+      </aside>
+    </div>
+    <div class="form-done" id="buyDone" hidden>
+      <h3>Билет оформлен ✓</h3>
+      <p id="buyDoneText"></p>
+      <p class="form-hint">Это демо: оплата не проводится, билет не выписывается.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section section-deep" id="info">
+  <div class="wrap grid-2">
+    <div>
+      <p class="overline">Информация</p>
+      <h2>Как попасть</h2>
+      <ul class="info-list">
+        <li><b>Адрес</b><span>наб. Адмиралтейская, 2, первый этаж без окон</span></li>
+        <li><b>Часы</b><span>ежедневно 10:00–21:00, вход по сеансам</span></li>
+        <li><b>Длительность</b><span>40–50 минут, выход на балкон с чаем</span></li>
+        <li><b>С собой</b><span>тёплый слой: в «Мраке» +6 °C, пла выдаётся</span></li>
+      </ul>
+    </div>
+    <div class="info-note">
+      <h3>«Лучший час без экрана за год»</h3>
+      <p>— из отзывов первого месяца. Телефоны про сдать в шкафчик: залы построены так, что экран всё равно не сфотографирует.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap grid-3">
+    <div>
+      <p class="foot-logo">ГЛУБИНА</p>
+      <p>наб. Адмиралтейская, 2<br>Санкт-Петербург</p>
+    </div>
+    <div>
+      <h4>Часы</h4>
+      <p>ежедневно 10:00–21:00<br>касса до 20:00</p>
+    </div>
+    <div>
+      <h4>Связь</h4>
+      <p><a href="tel:+78126112233">+7 (812) 611-22-33</a><br>
+      <a href="mailto:hi@glubina.show">hi@glubina.show</a></p>
+    </div>
+  </div>
+  <div class="wrap demo-credit">
+    <p>Демо-сайт для портфолио. Дизайн и разработка — <a href="../../">AZOTH</a>. Оплата и билеты — демонстрация.</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

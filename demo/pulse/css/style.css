@@ -1,0 +1,137 @@
+/* ПУЛЬС — фитнес. Чёрный + лайм, жирная типографика. */
+:root {
+  --bg: #0b0b0b;
+  --bg2: #131313;
+  --ink: #f5f5f5;
+  --dim: #9d9d9d;
+  --acc: #c8f542;
+  --line: rgba(245, 245, 245, 0.14);
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.6; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3 { line-height: 1.05; letter-spacing: -0.01em; text-transform: uppercase; }
+h2 { font-size: clamp(30px, 4.4vw, 48px); margin-bottom: 24px; }
+section { scroll-margin-top: 76px; }
+
+.wrap { width: min(1140px, 92vw); margin: 0 auto; }
+.wrap.narrow { width: min(680px, 92vw); }
+.section { padding: 88px 0; }
+.section-dark { background: var(--bg2); }
+.grid-3 { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 40px; }
+.overline { color: var(--acc); text-transform: uppercase; letter-spacing: 0.24em; font-size: 12px; margin-bottom: 14px; }
+.dim { color: var(--dim); }
+
+/* ---------- шапка ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 28px; padding: 14px 4vw;
+  background: rgba(11, 11, 11, 0.88); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.logo { font-weight: 900; font-size: 21px; letter-spacing: 0.06em; text-transform: uppercase; }
+.logo span { color: var(--acc); }
+.site-nav { display: flex; gap: 22px; margin-left: auto; font-size: 14px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; }
+.site-nav a:hover { color: var(--acc); }
+
+.btn {
+  display: inline-block; padding: 13px 24px; font-size: 14px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.08em; border-radius: 4px;
+  border: 1px solid var(--line); cursor: pointer; transition: 0.2s; font-family: var(--sans);
+}
+.btn-solid { background: var(--acc); color: #101402; border-color: var(--acc); }
+.btn-solid:hover { filter: brightness(1.12); }
+.btn-ghost:hover { border-color: var(--acc); color: var(--acc); }
+.wide { width: 100%; }
+
+/* ---------- герой ---------- */
+.hero {
+  min-height: 88vh; display: grid; place-items: center; text-align: left;
+  background: url('../img/hero.jpg') center / cover no-repeat; position: relative;
+}
+.hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,11,11,0.82), rgba(11,11,11,0.2)); }
+.hero-inner { position: relative; z-index: 1; padding: 14vh 6vw 0; width: 100%; }
+.hero h1 { font-size: clamp(52px, 9vw, 118px); font-weight: 900; }
+.hero-sub { color: var(--dim); margin: 20px 0 30px; font-size: 18px; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* ---------- направления/тренеры ---------- */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.card { background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.card img { aspect-ratio: 4 / 4.4; object-fit: cover; width: 100%; filter: saturate(0.9); transition: 0.4s; }
+.card:hover img { filter: saturate(1.1); transform: scale(1.02); }
+.card-body { padding: 18px; }
+.card-body h3 { font-size: 19px; margin-bottom: 6px; }
+.card-body p { color: var(--dim); font-size: 14.5px; }
+
+/* ---------- расписание ---------- */
+.tabs { display: flex; gap: 8px; margin: 24px 0 22px; flex-wrap: wrap; }
+.tab {
+  min-width: 64px; padding: 11px 0; text-align: center;
+  border: 1px solid var(--line); border-radius: 6px; background: none;
+  color: var(--dim); font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.2s;
+}
+.tab:hover { color: var(--ink); border-color: var(--acc); }
+.tab.on { background: var(--acc); border-color: var(--acc); color: #101402; }
+.sched { display: none; }
+.sched.on { display: block; }
+.slot {
+  display: flex; align-items: center; gap: 22px;
+  padding: 18px 6px; border-bottom: 1px solid var(--line);
+}
+.slot b { font-size: 18px; color: var(--acc); min-width: 64px; font-variant-numeric: tabular-nums; }
+.slot h3 { font-size: 17px; text-transform: none; letter-spacing: 0; }
+.slot span { color: var(--dim); font-size: 13.5px; }
+.slot i { margin-left: auto; color: var(--dim); font-style: normal; font-size: 14px; }
+
+/* ---------- тарифы ---------- */
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.plan {
+  position: relative; border: 1px solid var(--line); border-radius: 10px;
+  padding: 28px 24px; background: var(--bg);
+  display: flex; flex-direction: column; gap: 14px;
+}
+.plan.hit { border-color: var(--acc); }
+.plan-badge {
+  position: absolute; top: -12px; left: 22px; background: var(--acc); color: #101402;
+  font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 4px 10px; border-radius: 4px;
+}
+.plan h3 { font-size: 18px; }
+.plan-price { font-size: 32px; font-weight: 900; }
+.plan-price span { font-size: 14px; color: var(--dim); font-weight: 400; }
+.plan ul { list-style: none; display: grid; gap: 8px; color: var(--dim); font-size: 14.5px; flex: 1; }
+.plan ul li::before { content: '— '; color: var(--acc); }
+
+/* ---------- форма ---------- */
+.form label { display: block; font-size: 13px; color: var(--dim); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em; }
+.form input, .form select {
+  display: block; width: 100%; margin-top: 6px; padding: 13px 14px; font-size: 16px;
+  color: var(--ink); background: var(--bg2); border: 1px solid var(--line); border-radius: 4px;
+}
+.form input:focus, .form select:focus { outline: none; border-color: var(--acc); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-hint { color: var(--dim); font-size: 13px; margin-top: 14px; text-align: center; }
+.form-done { border: 1px solid var(--acc); border-radius: 10px; padding: 34px; text-align: center; }
+.form-done h3 { color: var(--acc); margin-bottom: 8px; }
+
+/* ---------- подвал ---------- */
+.site-footer { border-top: 1px solid var(--line); padding: 56px 0 30px; background: var(--bg2); }
+.site-footer h4 { font-size: 14px; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 0.1em; }
+.site-footer p { color: var(--dim); font-size: 15px; }
+.site-footer a:hover { color: var(--acc); }
+.foot-logo { font-weight: 900; font-size: 20px; color: var(--ink) !important; text-transform: uppercase; }
+.demo-credit { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 13.5px; }
+.demo-credit a { color: var(--acc); }
+
+@media (max-width: 900px) {
+  .cards, .plans, .grid-3 { grid-template-columns: 1fr; }
+  .site-nav { display: none; }
+  .form-row { grid-template-columns: 1fr; }
+  .section { padding: 64px 0; }
+  .hero-inner { padding-top: 10vh; }
+}

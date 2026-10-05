@@ -51,7 +51,7 @@ export const DICT = {
   // ---------- работы ----------
   works_overline:  { ru: '02 // ИЗБРАННЫЕ ПРОЕКТЫ', en: '02 // SELECTED PROJECTS' },
   works_title_html:{ ru: 'РА<span class="outline">БО</span>ТЫ', en: 'W<span class="outline">O</span>RKS' },
-  works_concept:   { ru: 'КОНЦЕПТ-ПРОЕКТЫ', en: 'CONCEPT PROJECTS' },
+  works_concept:   { ru: 'РАБОЧИЕ ДЕМО', en: 'LIVE DEMOS' },
   works_count_1:   { ru: 'ПРОЕКТ',  en: 'PROJECT' },
   works_count_2:   { ru: 'ПРОЕКТА', en: 'PROJECTS' },
   works_count_5:   { ru: 'ПРОЕКТОВ', en: 'PROJECTS' },
@@ -60,13 +60,15 @@ export const DICT = {
   works_view_list: { ru: 'СПИСОК', en: 'LIST' },
   works_sort_year: { ru: 'ГОД', en: 'YEAR' },
   works_sort_aria: { ru: 'Сортировать по году', en: 'Sort by year' },
-  works_foot_note: { ru: 'ВСЕ ОБЛОЖКИ — ПРОЦЕДУРНЫЕ ШЕЙДЕРЫ, БЕЗ КАРТИНОК', en: 'ALL COVERS ARE PROCEDURAL SHADERS, NO IMAGES' },
+  works_foot_note: { ru: 'КАЖДЫЙ ПРОЕКТ — ЖИВОЙ ДЕМО-САЙТ: ОТКРЫВАЙ И ЛИСТАЙ', en: 'EVERY PROJECT IS A LIVE DEMO SITE — OPEN AND EXPLORE' },
   works_foot_cta:  { ru: 'ХОЧУ ТАК ЖЕ →', en: 'I WANT THE SAME →' },
   card_view:       { ru: 'СМОТРЕТЬ КЕЙС +', en: 'VIEW CASE +' },
   card_aria:       { ru: 'Открыть кейс: {title}', en: 'Open case: {title}' },
 
   // ---------- кейс-вью ----------
-  case_tag:        { ru: 'ДЕМО-КОНЦЕПТ', en: 'DEMO CONCEPT' },
+  case_tag:        { ru: 'РАБОЧЕЕ ДЕМО', en: 'LIVE DEMO' },
+  case_demo:       { ru: '↗ ОТКРЫТЬ САЙТ', en: '↗ OPEN SITE' },
+  case_demo_title: { ru: 'Открыть демо-сайт проекта в новой вкладке', en: 'Open the project demo site in a new tab' },
   case_close:      { ru: 'ЗАКРЫТЬ ✕', en: 'CLOSE ✕' },
   case_prev:       { ru: '← ПРЕД', en: '← PREV' },
   case_next:       { ru: 'СЛЕД →', en: 'NEXT →' },
@@ -100,13 +102,13 @@ export const DICT = {
   stat3_label:      { ru: 'КЛИЕНТОВ ВОЗВРАЩАЮТСЯ', en: 'CLIENTS COME BACK' },
   q1_body: { ru: '«Сделал за три недели то, что предыдущий подрядчик не мог собрать год. Эффекты — как у студий с прайсом х10.»',
              en: '‘Shipped in three weeks what the previous contractor could not put together for a year. Effects on par with studios charging 10x.’' },
-  q1_who:  { ru: '— МАКС, ОСНОВАТЕЛЬ NEON DRIFT', en: '— MAX, FOUNDER OF NEON DRIFT' },
+  q1_who:  { ru: '— МАРАТ, РЕСТОРАН «СОЛЬ»', en: '— MARAT, SALT RESTAURANT' },
   q2_body: { ru: '«Впервые магазин не тормозит на айфоне. Конверсия выросла с первого месяца.»',
              en: '‘First store that does not lag on an iPhone. Conversion grew from the very first month.’' },
-  q2_who:  { ru: '— КАТЯ, ГЛИТЧ.МАРКЕТ', en: '— KATE, GLITCH.MARKET' },
+  q2_who:  { ru: '— КАТЯ, МАСТЕРСКАЯ «ФОРМА»', en: '— KATE, FORMA WORKSHOP' },
   q3_body: { ru: '«Просто скинул ТЗ и забыл. Сроки, правки, запуск — всё как обещал.»',
              en: '‘I just sent the brief and forgot about it. Deadlines, edits, launch — everything as promised.’' },
-  q3_who:  { ru: '— АРТЁМ, ПОРТАЛ 9', en: '— ARTEM, PORTAL 9' },
+  q3_who:  { ru: '— АРТЁМ, СЕТЬ «ПУЛЬС»', en: '— ARTEM, PULSE GYMS' },
 
   // ---------- калькулятор ----------
   calc_overline:  { ru: '04 // КАЛЬКУЛЯТОР СТОИМОСТИ', en: '04 // COST CALCULATOR' },
