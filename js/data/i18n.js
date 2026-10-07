@@ -43,6 +43,7 @@ export const DICT = {
   cta_calc:      { ru: 'ПОСЧИТАТЬ ЦЕНУ',  en: 'ESTIMATE THE COST' },
   home_stat1:    { ru: '07 ЛЕТ В РАЗРАБОТКЕ', en: '07 YEARS IN DEV' },
   home_stat2:    { ru: '40+ ПРОЕКТОВ',        en: '40+ PROJECTS' },
+  avail_now:     { ru: 'СВОБОДЕН СЕЙЧАС', en: 'AVAILABLE NOW' },
   avail_from:    { ru: 'СВОБОДЕН С',   en: 'OPEN FROM' },
   avail_slot_1:  { ru: 'СЛОТ В МЕСЯЦ', en: 'SLOT A MONTH' },
   avail_slot_2:  { ru: 'СЛОТА В МЕСЯЦ', en: 'SLOTS A MONTH' },

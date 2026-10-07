@@ -259,7 +259,9 @@ body.is-transitioning .glitchable {
 }
 .outline {
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(242, 242, 242, 0.85);
+  /* без этого тёмный text-shadow заголовка рисует тёмный силуэт внутри контурных букв */
+  text-shadow: none;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
 }
 .accent {
   background: linear-gradient(92deg, var(--acc) 8%, var(--acc-hot) 52%, #d9d9d9 78%, #e0e0e0 122%);
@@ -545,8 +547,9 @@ body.is-transitioning .glitchable {
   background: rgba(10, 10, 10, 0.5);
 }
 .avail i {
-  width: 7px; height: 7px; border-radius: 50%; background: #ffffff;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+  /* единственный цветовой акцент монохромного сайта — зелёный статус «свободен» */
+  width: 7px; height: 7px; border-radius: 50%; background: #4ade80;
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.9);
   animation: availPulse 2s ease-in-out infinite;
   flex: none;
 }

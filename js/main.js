@@ -372,8 +372,10 @@ function renderAvail() {
     const n = AVAILABILITY.slots;
     const span = el.querySelector('span');
     if (span) {
-      span.textContent =
-        `${t('avail_from')} ${AVAILABILITY.from[getLang()]} · ${n} ${plural(n, 'avail_slot_1', 'avail_slot_2', 'avail_slot_5')}`;
+      const slots = `· ${n} ${plural(n, 'avail_slot_1', 'avail_slot_2', 'avail_slot_5')}`;
+      span.textContent = AVAILABILITY.now
+        ? `${t('avail_now')} ${slots}`
+        : `${t('avail_from')} ${AVAILABILITY.from[getLang()]} ${slots}`;
     }
     el.hidden = false;
   });

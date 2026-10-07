@@ -24,10 +24,12 @@ export const LEAD_API = '';                // ← например 'https://azot
 export const METRICA_ID = '';              // ← например '12345678'
 
 // Плашка доступности на «Главной» и «Контакте».
+// now: true — «СВОБОДЕН СЕЙЧАС»; false — показывать дату из from.
 export const AVAILABILITY = {
   free: true,
+  now: true,
   slots: 2,
-  from: { ru: '20 октября', en: 'October 20' }, // ← дата-заглушка
+  from: { ru: '20 октября', en: 'October 20' },
 };
 
 export const PAGES = [
