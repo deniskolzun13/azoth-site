@@ -52,16 +52,29 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
   function cardMarkup(i) {
     const p = PROJECTS[i];
     const lang = getLang();
+    const shotsCount = (p.shots && p.shots.length) || 1;
+    const shotsLabel = lang === 'ru'
+      ? `${shotsCount} ${shotsCount === 1 ? 'КАДР' : (shotsCount < 5 ? 'КАДРА' : 'КАДРОВ')}`
+      : `${shotsCount} ${shotsCount === 1 ? 'SHOT' : 'SHOTS'}`;
     return `
       <div class="work-cover">
-        ${p.cover ? `<img class="work-cover-img" src="${p.cover}" alt="" loading="lazy">` : '<canvas aria-hidden="true"></canvas>'}
-        <span class="work-view mono">${t('card_view')}</span>
+        ${p.cover ? `<img class="work-cover-img" src="${p.cover}" alt="${p.title}" loading="lazy">` : '<canvas aria-hidden="true"></canvas>'}
+        <div class="work-cover-top">
+          <span class="work-cat mono">${p.catLabel[lang]}</span>
+          <span class="work-shots-badge mono">${shotsLabel}</span>
+        </div>
+        <div class="work-cover-actions">
+          <span class="work-view mono">${t('card_view')}</span>
+          ${p.demo ? `<a class="work-demo-direct mono" href="${p.demo}" target="_blank" rel="noopener" data-cursor="link" title="${t('case_demo_title')}">${t('case_demo')}</a>` : ''}
+        </div>
       </div>
       <div class="work-meta">
         <span class="work-idx">${String(i + 1).padStart(2, '0')}</span>
         <h3 class="work-name">${p.title}</h3>
+        <span class="work-cat-inline mono">${p.catLabel[lang]}</span>
         <span class="work-year">${p.year}</span>
       </div>
+      <p class="work-desc">${p.desc[lang]}</p>
       <div class="work-tags">${p.tags[lang].map((x) => `<span>${x}</span>`).join('')}</div>`;
   }
 
@@ -194,9 +207,10 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
   filtersEl.prepend(allBtn);
 
   function refreshFilterLabels() {
-    allBtn.textContent = t('filter_all');
+    allBtn.textContent = `${t('filter_all')} (${PROJECTS.length})`;
     for (const [cat, b] of catBtns) {
-      b.textContent = PROJECTS.find((p) => p.cat === cat).catLabel[getLang()];
+      const count = PROJECTS.filter((p) => p.cat === cat).length;
+      b.textContent = `${PROJECTS.find((p) => p.cat === cat).catLabel[getLang()]} (${count})`;
     }
   }
 
@@ -293,12 +307,14 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
       item.mx = ((e.clientX - r.left) / r.width) * 2 - 1;
       item.my = -(((e.clientY - r.top) / r.height) * 2 - 1);
     });
-    el.addEventListener('click', () => {
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('.work-demo-direct')) return; // прямой переход в демо
       audio?.blip(640, 0.08, 0.04);
       onOpenCase?.(i);
     });
     el.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
+        if (e.target.closest('.work-demo-direct')) return;
         e.preventDefault();
         audio?.blip(640, 0.08, 0.04);
         onOpenCase?.(i);
@@ -322,7 +338,27 @@ export function initWorks({ cards, audio, onOpenCase } = {}) {
   // перевод динамических частей
   onLang(() => {
     cardItems.forEach(({ el, p }, i) => {
-      el.querySelector('.work-tags').innerHTML = p.tags[getLang()].map((x) => `<span>${x}</span>`).join('');
+      const lang = getLang();
+      const shotsCount = (p.shots && p.shots.length) || 1;
+      const shotsLabel = lang === 'ru'
+        ? `${shotsCount} ${shotsCount === 1 ? 'КАДР' : (shotsCount < 5 ? 'КАДРА' : 'КАДРОВ')}`
+        : `${shotsCount} ${shotsCount === 1 ? 'SHOT' : 'SHOTS'}`;
+
+      const catEl = el.querySelector('.work-cat');
+      if (catEl) catEl.textContent = p.catLabel[lang];
+      const catInl = el.querySelector('.work-cat-inline');
+      if (catInl) catInl.textContent = p.catLabel[lang];
+      const badge = el.querySelector('.work-shots-badge');
+      if (badge) badge.textContent = shotsLabel;
+      const desc = el.querySelector('.work-desc');
+      if (desc) desc.textContent = p.desc[lang];
+      const demoBtn = el.querySelector('.work-demo-direct');
+      if (demoBtn) {
+        demoBtn.textContent = t('case_demo');
+        demoBtn.title = t('case_demo_title');
+      }
+
+      el.querySelector('.work-tags').innerHTML = p.tags[lang].map((x) => `<span>${x}</span>`).join('');
       el.setAttribute('aria-label', t('card_aria', { title: p.title }));
       el.querySelector('.work-view').textContent = t('card_view');
       if (!cards.ok && cardItems[i].item) drawFallbackCover(cardItems[i].item, i);
