@@ -1,0 +1,77 @@
+/* ============================================================
+   AZOTH Portfolio — Фирменный плавающий HUD-бейдж для всех демо
+   ============================================================ */
+
+.demo-hud-badge {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 99999;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  pointer-events: auto;
+}
+
+.demo-hud-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: rgba(12, 12, 14, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 16px rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  color: #f5f5f5;
+  font-size: 12.5px;
+  text-decoration: none;
+  line-height: 1;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.demo-hud-link:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(20, 20, 24, 0.95);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.demo-hud-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 10px #4ade80;
+  flex: none;
+  animation: demoPulse 2s infinite ease-in-out;
+}
+
+@keyframes demoPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+.demo-hud-title {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.demo-hud-sub {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11.5px;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  padding-left: 10px;
+}
+
+@media (max-width: 640px) {
+  .demo-hud-badge {
+    bottom: 16px;
+    right: 16px;
+  }
+  .demo-hud-sub {
+    display: none;
+  }
+}

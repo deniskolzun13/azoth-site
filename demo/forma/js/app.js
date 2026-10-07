@@ -23,8 +23,33 @@
 
   const state = { model: 'loft', k: 1, fabric: 0 };
 
+  let currentDisplayPrice = 89000;
+  let priceAnimFrame = null;
+
   function fmt(n) {
     return n.toLocaleString('ru-RU') + ' ₽';
+  }
+
+  function animatePrice(targetPrice) {
+    if (priceAnimFrame) cancelAnimationFrame(priceAnimFrame);
+    const startPrice = currentDisplayPrice;
+    const startTime = performance.now();
+    const duration = 350;
+
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / duration);
+      const ease = 1 - (1 - progress) * (1 - progress);
+      currentDisplayPrice = Math.round(startPrice + (targetPrice - startPrice) * ease);
+      priceOut.textContent = fmt(currentDisplayPrice);
+      if (progress < 1) {
+        priceAnimFrame = requestAnimationFrame(step);
+      } else {
+        currentDisplayPrice = targetPrice;
+        priceOut.textContent = fmt(targetPrice);
+      }
+    }
+    priceAnimFrame = requestAnimationFrame(step);
   }
 
   function render() {
@@ -33,7 +58,7 @@
     vsofa.style.setProperty('--fab-light', light);
     vsofa.style.setProperty('--fab-dark', dark);
     const price = Math.round((MODELS[state.model] * state.k + extra) / 100) * 100;
-    priceOut.textContent = fmt(price);
+    animatePrice(price);
     orderForm.dataset.price = String(price);
   }
 

@@ -7,6 +7,7 @@
   <meta name="description" content="Фитнес-клубы ПУЛЬС: силовой блок, кардио, единоборства. Три клуба в городе, расписание на неделю, первая тренировка бесплатно.">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0b'/%3E%3Cpath d='M4 16h6l3-8 5 16 3-8h7' fill='none' stroke='%23c8f542' stroke-width='2.4'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="../demo-hud.css">
 </head>
 <body>
 
@@ -69,7 +70,9 @@
     <h2>Неделя в «Пульсе»</h2>
     <div class="tabs" role="tablist" aria-label="Дни недели">
       <button class="tab on" role="tab" aria-selected="true" data-day="mon">ПН</button>
+      <button class="tab" role="tab" aria-selected="false" data-day="tue">ВТ</button>
       <button class="tab" role="tab" aria-selected="false" data-day="wed">СР</button>
+      <button class="tab" role="tab" aria-selected="false" data-day="thu">ЧТ</button>
       <button class="tab" role="tab" aria-selected="false" data-day="fri">ПТ</button>
       <button class="tab" role="tab" aria-selected="false" data-day="sat">СБ</button>
     </div>
@@ -79,10 +82,20 @@
       <div class="slot"><b>18:30</b><div><h3>Бокс · техника</h3><span>Зал 3 · Артур Гейм</span></div><i>60 мин</i></div>
       <div class="slot"><b>20:00</b><div><h3>Силовой блок · становая</h3><span>Зал 1 · Макс Орлов</span></div><i>60 мин</i></div>
     </div>
+    <div class="sched" id="day-tue" hidden>
+      <div class="slot"><b>08:00</b><div><h3>Кардио · интервальный бег</h3><span>Зал 2 · Дина Соколова</span></div><i>45 мин</i></div>
+      <div class="slot"><b>18:00</b><div><h3>Кроссфит · WOD</h3><span>Зал 1 · Тимур Бек</span></div><i>60 мин</i></div>
+      <div class="slot"><b>19:30</b><div><h3>Кикбоксинг · связки</h3><span>Зал 3 · Артур Гейм</span></div><i>60 мин</i></div>
+    </div>
     <div class="sched" id="day-wed" hidden>
       <div class="slot"><b>07:30</b><div><h3>Кардио · гребля</h3><span>Зал 2 · Дина Соколова</span></div><i>45 мин</i></div>
       <div class="slot"><b>17:00</b><div><h3>Функционалка · санки</h3><span>Зал 2 · Тимур Бек</span></div><i>45 мин</i></div>
       <div class="slot"><b>19:00</b><div><h3>Борьба · партер</h3><span>Зал 3 · Артур Гейм</span></div><i>60 мин</i></div>
+    </div>
+    <div class="sched" id="day-thu" hidden>
+      <div class="slot"><b>08:30</b><div><h3>Силовой блок · присед и кор</h3><span>Зал 1 · Макс Орлов</span></div><i>50 мин</i></div>
+      <div class="slot"><b>18:30</b><div><h3>Гребной спринт · кардио</h3><span>Зал 2 · Дина Соколова</span></div><i>45 мин</i></div>
+      <div class="slot"><b>20:00</b><div><h3>Тайский бокс · спарринги</h3><span>Зал 3 · Артур Гейм</span></div><i>60 мин</i></div>
     </div>
     <div class="sched" id="day-fri" hidden>
       <div class="slot"><b>07:30</b><div><h3>Силовой блок · жим</h3><span>Зал 1 · Макс Орлов</span></div><i>45 мин</i></div>
@@ -193,11 +206,14 @@
       <p>ул. Наличная, 5<br>пр. Богатырский, 18<br>ш. Энтузиастов, 31</p>
     </div>
   </div>
-  <div class="wrap demo-credit">
-    <p>Демо-сайт для портфолио. Дизайн и разработка — <a href="../../">AZOTH</a>. Форма записи не отправляет данные.</p>
-  </div>
-</footer>
+  <aside class="demo-hud-badge" aria-label="Демо-сайт портфолио">
+    <a href="../../#case-pulse" class="demo-hud-link" title="Вернуться к разбору кейса в портфолио">
+      <span class="demo-hud-dot"></span>
+      <span class="demo-hud-title">← В ПОРТФОЛИО</span>
+      <span class="demo-hud-sub">КЕЙС «ПУЛЬС»</span>
+    </a>
+  </aside>
 
-<script src="js/app.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
