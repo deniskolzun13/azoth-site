@@ -95,6 +95,48 @@ export function initCaseView({ cards, audio, buzz, push, replace, onChange, goal
   document.getElementById('lbPrev')?.addEventListener('click', () => lbNav(-1));
   document.getElementById('lbNext')?.addEventListener('click', () => lbNav(1));
 
+  // свайп-навигация (тач-жесты на смартфонах/планшетах)
+  function bindSwipe(element, onSwipeLeft, onSwipeRight) {
+    if (!element) return;
+    let startX = 0;
+    let startY = 0;
+    let startTime = 0;
+    element.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      startTime = performance.now();
+    }, { passive: true });
+    element.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length !== 1) return;
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      const dt = performance.now() - startTime;
+      if (dt < 600 && Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        if (dx < 0) onSwipeLeft();
+        else onSwipeRight();
+      }
+    }, { passive: true });
+  }
+
+  bindSwipe(lightbox, () => { lbNav(1); buzz?.(8); }, () => { lbNav(-1); buzz?.(8); });
+  const canvasWrap = modal.querySelector('.case-canvas-wrap');
+  bindSwipe(canvasWrap, () => {
+    const shots = currentShots();
+    if (shots.length > 1) {
+      setShot((shotIdx + 1) % shots.length);
+      audio?.blip(720, 0.06, 0.035);
+      buzz?.(8);
+    }
+  }, () => {
+    const shots = currentShots();
+    if (shots.length > 1) {
+      setShot((shotIdx - 1 + shots.length) % shots.length);
+      audio?.blip(720, 0.06, 0.035);
+      buzz?.(8);
+    }
+  });
+
   // ---------- галерея: до шести статичных кадров-миниатюр ----------
   const thumbsWrap = document.getElementById('caseThumbs');
   const thumbItems = [];
