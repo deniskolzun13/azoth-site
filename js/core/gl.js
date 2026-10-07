@@ -17,6 +17,8 @@ export class GL {
     this.dimTarget = 0;
     this.vel = 0;
     this.time = 0;
+    this.fpsLowCount = 0;
+    this.fpsDownscaled = false;
 
     try {
       this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false, powerPreference: 'high-performance' });
@@ -191,6 +193,22 @@ export class GL {
 
   tick(dt) {
     if (!this.ok || !this.visible) return;
+
+    // FPS Guard: адаптивное понижение разрешения при просадке кадров на слабых устройствах
+    if (!this.fpsDownscaled && this.dpr > 1) {
+      if (dt > 0.033) {
+        this.fpsLowCount++;
+        if (this.fpsLowCount > 60) {
+          this.fpsDownscaled = true;
+          this.dpr = Math.max(1, this.dpr * 0.75);
+          this.renderer.setPixelRatio(this.dpr);
+          this.resize();
+        }
+      } else if (this.fpsLowCount > 0) {
+        this.fpsLowCount--;
+      }
+    }
+
     const k = this.reduced ? 0.25 : 1;
     this.time += dt * k;
     this.u.uTime.value = this.time;
