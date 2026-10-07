@@ -79,9 +79,64 @@ export function initContact({ audio, goal } = {}) {
     if (sent) sent.hidden = which !== 'sent';
   };
 
+  const DRAFT_KEY = 'azoth_lead_draft';
+  const nameInput = form?.querySelector('input[name=name]');
+  const contactInput = form?.querySelector('input[name=contact]');
+  const taskInput = form?.querySelector('textarea[name=task]');
+
+  function saveDraft() {
+    if (!form) return;
+    try {
+      const draft = {
+        name: nameInput?.value || '',
+        contact: contactInput?.value || '',
+        task: taskInput?.value || '',
+      };
+      if (draft.name || draft.contact || draft.task) {
+        sessionStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      } else {
+        sessionStorage.removeItem(DRAFT_KEY);
+      }
+    } catch (_) { /* noop */ }
+  }
+
+  function loadDraft() {
+    if (!form) return;
+    try {
+      const raw = sessionStorage.getItem(DRAFT_KEY);
+      if (raw) {
+        const draft = JSON.parse(raw);
+        if (draft.name && nameInput && !nameInput.value) nameInput.value = draft.name;
+        if (draft.contact && contactInput && !contactInput.value) contactInput.value = draft.contact;
+        if (draft.task && taskInput && !taskInput.value) taskInput.value = draft.task;
+      }
+    } catch (_) { /* noop */ }
+  }
+
+  function clearDraft() {
+    try { sessionStorage.removeItem(DRAFT_KEY); } catch (_) { /* noop */ }
+  }
+
+  form?.addEventListener('input', saveDraft);
+  loadDraft();
+
+  // интеллектуальная подсказка формата контакта при потере фокуса
+  contactInput?.addEventListener('blur', () => {
+    const val = contactInput.value.trim();
+    if (!val) return;
+    const isTg = /^@?[a-zA-Z0-9_]{4,}$/.test(val) || val.includes('t.me/');
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+    const digits = val.replace(/\D/g, '');
+    const isPhone = digits.length >= 10 && digits.length <= 15;
+    if (!isTg && !isEmail && !isPhone) {
+      toast(t('toast_contact_hint'));
+    }
+  });
+
   document.getElementById('leadAgain')?.addEventListener('click', () => {
     showPanel('form');
     form?.reset();
+    clearDraft();
     form?.querySelector('input[name=name]')?.focus();
   });
 
@@ -97,6 +152,8 @@ export function initContact({ audio, goal } = {}) {
     // боты заполняют скрытое поле — делаем вид, что всё отправилось
     if (honeypot) {
       showPanel('sent');
+      clearDraft();
+      form.reset();
       return;
     }
 
@@ -119,6 +176,7 @@ export function initContact({ audio, goal } = {}) {
         showPanel('sent');
         toast(t('toast_sent'));
         goal?.('lead_sent');
+        clearDraft();
         form.reset();
       } catch (err) {
         // не ушло — отдаём текст вручную

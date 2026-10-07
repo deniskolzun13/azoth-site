@@ -172,6 +172,7 @@ export const DICT = {
   toast_calc:      { ru: 'КОНФИГУРАЦИЯ В ЗАЯВКЕ — ОСТАЛОСЬ КОНТАКТЫ', en: 'CONFIG IS IN THE REQUEST — JUST ADD CONTACTS' },
   toast_calc_copy: { ru: 'СМЕТА СКОПИРОВАНА В БУФЕР ОБМЕНА', en: 'ESTIMATE COPIED TO CLIPBOARD' },
   toast_calc_reset:{ ru: 'ОПЦИИ СБРОШЕНЫ К БАЗОВЫМ', en: 'OPTIONS RESET TO DEFAULTS' },
+  toast_contact_hint:{ ru: 'Укажите @telegram, e-mail или телефон', en: 'Please enter @telegram, e-mail or phone' },
   toast_hud_off:   { ru: 'HUD СКРЫТ — H ВЕРНЁТ ИНТЕРФЕЙС', en: 'HUD HIDDEN — H BRINGS IT BACK' },
   toast_hud_on:    { ru: 'ИНТЕРФЕЙС НА МЕСТЕ', en: 'INTERFACE IS BACK' },
   toast_gl_lost:   { ru: 'ГРАФИКА ПЕРЕЗАПУСКАЕТСЯ…', en: 'GRAPHICS RESTARTING…' },
