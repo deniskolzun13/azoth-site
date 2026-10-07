@@ -72,23 +72,46 @@ export class Router {
 
   _bindTouch() {
     let lastY = null;
-    window.addEventListener('touchstart', (e) => { lastY = e.touches[0].clientY; }, { passive: true });
+    let startY = null;
+    let startX = null;
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) { lastY = null; return; }
+      lastY = e.touches[0].clientY;
+      startY = lastY;
+      startX = e.touches[0].clientX;
+    }, { passive: true });
+
     window.addEventListener('touchmove', (e) => {
-      if (lastY === null) return;
+      if (lastY === null || e.touches.length !== 1) return;
       const y = e.touches[0].clientY;
+      const x = e.touches[0].clientX;
       const d = lastY - y; // вверх = вперёд
       lastY = y;
       const now = performance.now();
       if (this.transitioning || this.isBlocked() || now - this._lastNav < NAV_COOLDOWN) return;
+
+      // горизонтальный жест (свайпы в слайдерах/галерее) не переключает экраны
+      if (startX !== null && Math.abs(x - startX) > Math.abs(y - startY) * 1.4) {
+        this._acc = 0;
+        return;
+      }
+
       if ((d > 0 && this._atBottom()) || (d < 0 && this._atTop())) {
-        this._acc += d * 1.4;
+        this._acc += d * 1.2;
         clearTimeout(this._accTimer);
         this._accTimer = setTimeout(() => { this._acc = 0; }, EDGE_RESET);
       } else {
         this._acc = 0;
       }
-      if (this._acc > 260) { this._acc = 0; this.nav(1); }
-      else if (this._acc < -260) { this._acc = 0; this.nav(-1); }
+      // повышенный порог для предотвращения случайного elastic bounce на смартфонах
+      if (this._acc > 340) { this._acc = 0; this.nav(1); }
+      else if (this._acc < -340) { this._acc = 0; this.nav(-1); }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      lastY = null;
+      startY = null;
+      startX = null;
     }, { passive: true });
   }
 
