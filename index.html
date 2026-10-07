@@ -257,7 +257,13 @@
               <span class="mono calc-range" id="calcRange"></span>
               <span class="mono calc-days" id="calcDays"></span>
               <ul class="calc-includes mono" id="calcIncludes"></ul>
-              <button class="btn btn-solid" id="calcToForm" data-cursor="link"><span data-i18n="calc_to_form">ПЕРЕНОС В ЗАЯВКУ</span><i>→</i></button>
+              <div class="calc-actions">
+                <button class="btn btn-solid" id="calcToForm" data-cursor="link"><span data-i18n="calc_to_form">ПЕРЕНОС В ЗАЯВКУ</span><i>→</i></button>
+                <div class="calc-btn-row">
+                  <button class="btn btn-ghost" id="calcCopy" type="button" data-cursor="link" data-i18n-title="calc_copy_title" title="Скопировать расчёт сметы в буфер обмена"><span data-i18n="calc_copy">СКОПИРОВАТЬ СМЕТУ</span><i>⧉</i></button>
+                  <button class="btn btn-ghost" id="calcReset" type="button" data-cursor="link" data-i18n-title="calc_reset_title" title="Сбросить опции к базовым"><span data-i18n="calc_reset">СБРОСИТЬ</span><i>↺</i></button>
+                </div>
+              </div>
               <p class="mono form-note" data-i18n="calc_note2">ОЦЕНКА ±15% · ФИНАЛЬНАЯ ЦЕНА ФИКСИРУЕТСЯ В ДОГОВОРЕ</p>
             </aside>
           </div>

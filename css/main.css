@@ -963,6 +963,9 @@ body.hud-hidden #topBtn {
   display: flex; flex-direction: column; gap: 5px; color: var(--dim);
 }
 .calc-includes li::before { content: '+ '; color: var(--acc2); }
+.calc-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.calc-btn-row { display: flex; gap: 8px; }
+.calc-btn-row .btn { flex: 1; padding: 9px 10px; font-size: 11px; letter-spacing: 0.06em; }
 .calc-total .btn { width: 100%; justify-content: center; }
 .calc-total .form-note { margin-top: 12px; }
 

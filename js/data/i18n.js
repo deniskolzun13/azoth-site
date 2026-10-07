@@ -126,6 +126,10 @@ export const DICT = {
   calc_weeks:     { ru: 'НЕД.', en: 'WKS' },
   calc_base:      { ru: 'БАЗОВАЯ КОМПЛЕКТАЦИЯ', en: 'BASE PACKAGE' },
   calc_to_form:   { ru: 'ПЕРЕНОС В ЗАЯВКУ', en: 'MOVE TO THE FORM' },
+  calc_copy:      { ru: 'СКОПИРОВАТЬ СМЕТУ', en: 'COPY ESTIMATE' },
+  calc_copy_title:{ ru: 'Скопировать расчёт сметы в буфер обмена', en: 'Copy estimate to clipboard' },
+  calc_reset:     { ru: 'СБРОСИТЬ', en: 'RESET' },
+  calc_reset_title:{ ru: 'Сбросить опции к базовым', en: 'Reset options to defaults' },
   calc_note2:     { ru: 'ОЦЕНКА ±15% · ФИНАЛЬНАЯ ЦЕНА ФИКСИРУЕТСЯ В ДОГОВОРЕ', en: 'ESTIMATE ±15% · FINAL PRICE IS FIXED IN THE CONTRACT' },
 
   // ---------- контакт ----------
@@ -166,6 +170,8 @@ export const DICT = {
   toast_copied:    { ru: 'СКОПИРОВАНО', en: 'COPIED' },
   toast_copy_hint: { ru: 'СКОПИРУЙТЕ ВРУЧНУЮ ИЗ ПОЛЯ', en: 'COPY IT MANUALLY FROM THE FIELD' },
   toast_calc:      { ru: 'КОНФИГУРАЦИЯ В ЗАЯВКЕ — ОСТАЛОСЬ КОНТАКТЫ', en: 'CONFIG IS IN THE REQUEST — JUST ADD CONTACTS' },
+  toast_calc_copy: { ru: 'СМЕТА СКОПИРОВАНА В БУФЕР ОБМЕНА', en: 'ESTIMATE COPIED TO CLIPBOARD' },
+  toast_calc_reset:{ ru: 'ОПЦИИ СБРОШЕНЫ К БАЗОВЫМ', en: 'OPTIONS RESET TO DEFAULTS' },
   toast_hud_off:   { ru: 'HUD СКРЫТ — H ВЕРНЁТ ИНТЕРФЕЙС', en: 'HUD HIDDEN — H BRINGS IT BACK' },
   toast_hud_on:    { ru: 'ИНТЕРФЕЙС НА МЕСТЕ', en: 'INTERFACE IS BACK' },
   toast_gl_lost:   { ru: 'ГРАФИКА ПЕРЕЗАПУСКАЕТСЯ…', en: 'GRAPHICS RESTARTING…' },

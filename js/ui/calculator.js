@@ -22,6 +22,8 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
   const toFormBtn = document.getElementById('calcToForm');
   if (!typesEl || !groupsEl) return null;
 
+  const STORAGE_KEY = 'azoth_calc_state';
+
   // state.sel: single → id опции, multi → массив id
   const state = { type: CALC.types[0].id, sel: {} };
   let shown = 0;
@@ -31,13 +33,49 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
   let lastDays = '';
   let lastSpeed = '';
 
-  // значения по умолчанию
-  CALC.groups.forEach((g) => {
-    const def = g.options.find((o) => o.def) || (g.single ? g.options[0] : null);
-    if (def) state.sel[g.id] = g.single ? def.id : [];
-  });
+  function resetDefaults() {
+    state.type = CALC.types[0].id;
+    state.sel = {};
+    CALC.groups.forEach((g) => {
+      const def = g.options.find((o) => o.def) || (g.single ? g.options[0] : null);
+      if (def) state.sel[g.id] = g.single ? def.id : [];
+    });
+  }
 
-  const typeById = () => CALC.types.find((x) => x.id === state.type);
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ type: state.type, sel: state.sel }));
+    } catch (_) { /* noop */ }
+  }
+
+  function loadState() {
+    resetDefaults();
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed.type && CALC.types.some((x) => x.id === parsed.type)) {
+          state.type = parsed.type;
+        }
+        if (parsed.sel && typeof parsed.sel === 'object') {
+          Object.keys(parsed.sel).forEach((gid) => {
+            const g = CALC.groups.find((group) => group.id === gid);
+            if (g) {
+              if (g.single && g.options.some((o) => o.id === parsed.sel[gid])) {
+                state.sel[gid] = parsed.sel[gid];
+              } else if (!g.single && Array.isArray(parsed.sel[gid])) {
+                state.sel[gid] = parsed.sel[gid].filter((oid) => g.options.some((o) => o.id === oid));
+              }
+            }
+          });
+        }
+      }
+    } catch (_) { /* noop */ }
+  }
+
+  loadState();
+
+  const typeById = () => CALC.types.find((x) => x.id === state.type) || CALC.types[0];
   const visibleGroups = () => CALC.groups.filter((g) => !g.only || g.only.includes(state.type));
   const optionById = (gid, oid) => CALC.groups.find((g) => g.id === gid)?.options.find((o) => o.id === oid);
 
@@ -56,6 +94,7 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
       b.addEventListener('click', () => {
         if (state.type === x.id) return;
         state.type = x.id;
+        saveState();
         audio?.blip(760, 0.06, 0.035);
         buzz?.(6);
         renderTypes();
@@ -101,6 +140,7 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
             const idx = arr.indexOf(o.id);
             if (idx >= 0) arr.splice(idx, 1); else arr.push(o.id);
             state.sel[g.id] = arr;
+            saveState();
             b.classList.toggle('on', arr.includes(o.id));
             b.setAttribute('aria-pressed', String(arr.includes(o.id)));
             audio?.blip(1050, 0.045, 0.026);
@@ -108,6 +148,7 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
           } else {
             if (state.sel[g.id] === o.id) return;
             state.sel[g.id] = o.id;
+            saveState();
             // перерисовать группу: подсветка уходит со старой опции
             renderGroups();
             audio?.blip(1050, 0.045, 0.026);
@@ -227,6 +268,39 @@ export function initCalculator({ router, audio, buzz, goal } = {}) {
       toast(t('toast_calc'));
       form?.querySelector('input[name=name]')?.focus?.();
     }, 1100);
+  });
+
+  // копирование сметы напрямую без перехода в форму
+  const copyBtn = document.getElementById('calcCopy');
+  copyBtn?.addEventListener('click', async () => {
+    const x = typeById();
+    const text =
+      `${t('brief_head')}\n` +
+      `${t('brief_type')} ${x.label[getLang()]}\n` +
+      `${t('brief_opts')} ${lastPickedLabels.length ? lastPickedLabels.join('; ') : t('calc_base')}\n` +
+      `${t('brief_budget')} ${fmt(lastTotal)} ₽, ${t('brief_deadline')}${lastDays}${lastSpeed ? `, ${lastSpeed}` : ''}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      toast(t('toast_calc_copy'));
+    } catch (_) {
+      toast(text);
+    }
+    audio?.chirp();
+    buzz?.(10);
+    goal?.('calc_copy');
+  });
+
+  // сброс опций к базовым
+  const resetBtn = document.getElementById('calcReset');
+  resetBtn?.addEventListener('click', () => {
+    resetDefaults();
+    saveState();
+    renderTypes();
+    renderGroups();
+    update(true);
+    audio?.chirp();
+    buzz?.(10);
+    toast(t('toast_calc_reset'));
   });
 
   renderTypes();
